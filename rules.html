@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Правила проекта - Real Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+    <div class="preloader-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+    <div class="preloader-spinner"></div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">RM</div>
+        <span class="w">REAL</span><span class="r">MOBILE</span>
+    </a>
+    <div class="nav-menu">
+        <a href="index.html">Главная</a>
+        <a href="server.html">Сервер</a>
+        <a href="features.html">Возможности</a>
+        <a href="rules.html" class="active">Правила</a>
+        <a href="download.html" class="nav-download">Скачать</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="server.html" onclick="closeMobile()">Сервер</a>
+    <a href="features.html" onclick="closeMobile()">Возможности</a>
+    <a href="rules.html" onclick="closeMobile()">Правила</a>
+    <a href="download.html" onclick="closeMobile()">Скачать</a>
+</div>
+
+<div class="page-hero">
+    <h1>Правила <span style="color:var(--primary)">проекта</span></h1>
+    <p>Последнее обновление: 1 января 2026 г.</p>
+</div>
+
+<div class="page-content">
+    <h2>1. Общие положения</h2>
+    <p>Настоящие правила распространяются на всех игроков проекта Real Mobile. Регистрируясь на сервере, вы автоматически соглашаетесь с данными правилами.</p>
+    <p>Администрация оставляет за собой право изменять правила без предварительного уведомления. Незнание правил не освобождает от ответственности.</p>
+
+    <h2>2. Игровой процесс</h2>
+    <ul>
+        <li>Запрещено использование любых читов, модификаций, багов и стороннего ПО, дающего преимущество</li>
+        <li>Запрещен DM (Deathmatch) - убийство игроков без ролевой причины</li>
+        <li>Запрещен VDM (Vehicle Deathmatch) - наезд на игроков без ролевой причины</li>
+        <li>Запрещен PowerGaming - действия, невозможные в реальной жизни</li>
+        <li>Запрещен MetaGaming - использование OOC информации в IC</li>
+        <li>Запрещен Bunny Hop - постоянные прыжки для увеличения скорости</li>
+    </ul>
+
+    <h2>3. Общение</h2>
+    <ul>
+        <li>Запрещены оскорбления, унижения и дискриминация по любому признаку</li>
+        <li>Запрещен флуд, спам и реклама сторонних проектов</li>
+        <li>Запрещено выдавать себя за администратора проекта</li>
+        <li>Запрещено разглашение личных данных других игроков</li>
+        <li>В голосовом чате запрещены посторонние звуки и музыка</li>
+    </ul>
+
+    <h2>4. Аккаунты</h2>
+    <ul>
+        <li>Разрешено иметь не более 2 аккаунтов на одного игрока</li>
+        <li>Запрещена продажа, покупка и передача аккаунтов</li>
+        <li>Запрещена продажа игровой валюты и имущества за реальные деньги</li>
+        <li>Игрок несет полную ответственность за безопасность своего аккаунта</li>
+    </ul>
+
+    <h2>5. Наказания</h2>
+    <p>За нарушение правил администрация может применить следующие санкции:</p>
+    <ul>
+        <li>Устное предупреждение</li>
+        <li>Мут (ограничение чата) на срок от 30 минут до 7 дней</li>
+        <li>Кик с сервера</li>
+        <li>Временная блокировка аккаунта на срок от 1 дня до 30 дней</li>
+        <li>Перманентная блокировка аккаунта без права на разблокировку</li>
+    </ul>
+    <p>Решение администрации является окончательным. Обжалование возможно через Telegram: <a href="https://t.me/Real_Mobile_Official" target="_blank">@Real_Mobile_Official</a>.</p>
+
+    <h2>6. Донат</h2>
+    <ul>
+        <li>Все покупки являются добровольными</li>
+        <li>Донат не дает преимуществ в ролевой игре</li>
+        <li>Возврат средств за донат не производится, за исключением случаев, предусмотренных законодательством</li>
+    </ul>
+</div>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
+            <div class="footer-links">
+                <a href="eula.html">EULA</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="rules.html">Правила</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="to-top" id="toTop" onclick="goTop()">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
