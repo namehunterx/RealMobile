@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервер Moscow - Real Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+    <div class="preloader-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+    <div class="preloader-spinner"></div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">RM</div>
+        <span class="w">REAL</span><span class="r">MOBILE</span>
+    </a>
+    <div class="nav-menu">
+        <a href="index.html">Главная</a>
+        <a href="server.html" class="active">Сервер</a>
+        <a href="features.html">Возможности</a>
+        <a href="rules.html">Правила</a>
+        <a href="download.html" class="nav-download">Скачать</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="server.html" onclick="closeMobile()">Сервер</a>
+    <a href="features.html" onclick="closeMobile()">Возможности</a>
+    <a href="rules.html" onclick="closeMobile()">Правила</a>
+    <a href="download.html" onclick="closeMobile()">Скачать</a>
+</div>
+
+<div class="page-hero">
+    <h1>Сервер <span style="color:var(--primary)">Moscow</span></h1>
+    <p>Основной игровой сервер Real Mobile</p>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="server-card reveal">
+            <div class="server-card-glow"></div>
+            <div class="server-badge"><span class="dot"></span> Online</div>
+            <h3 class="server-name">Real Mobile - <span class="red">Moscow</span></h3>
+            <p class="server-sub">IP: play.realmobile.ru | Port: 7777</p>
+
+            <div class="server-stats">
+                <div class="server-stat">
+                    <div class="server-stat-val" id="srvOnline">458</div>
+                    <div class="server-stat-label">Онлайн</div>
+                </div>
+                <div class="server-stat">
+                    <div class="server-stat-val">1000</div>
+                    <div class="server-stat-label">Слотов</div>
+                </div>
+                <div class="server-stat">
+                    <div class="server-stat-val">38ms</div>
+                    <div class="server-stat-label">Пинг</div>
+                </div>
+            </div>
+
+            <a href="download.html" class="btn btn-red">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+                Начать играть
+            </a>
+        </div>
+
+        <div style="margin-top:60px;">
+            <div class="section-head reveal">
+                <div class="section-tag">Информация</div>
+                <h2 class="section-title">О сервере</h2>
+            </div>
+
+            <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); max-width:700px; margin:0 auto;">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Античит</h3>
+                    <p>Мощная система защиты от читеров и нарушителей для честной игры</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Стабильность</h3>
+                    <p>Мощное серверное оборудование обеспечивает стабильный TPS 24/7</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💾</div>
+                    <h3>Сохранения</h3>
+                    <p>Автоматическое сохранение прогресса каждые 5 минут</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Локация</h3>
+                    <p>Сервер расположен в Москве для минимального пинга по СНГ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
+            <div class="footer-links">
+                <a href="eula.html">EULA</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="rules.html">Правила</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="to-top" id="toTop" onclick="goTop()">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
