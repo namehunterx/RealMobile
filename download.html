@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать - Real Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+    <div class="preloader-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+    <div class="preloader-spinner"></div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">RM</div>
+        <span class="w">REAL</span><span class="r">MOBILE</span>
+    </a>
+    <div class="nav-menu">
+        <a href="index.html">Главная</a>
+        <a href="server.html">Сервер</a>
+        <a href="features.html">Возможности</a>
+        <a href="rules.html">Правила</a>
+        <a href="download.html" class="nav-download active">Скачать</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="server.html" onclick="closeMobile()">Сервер</a>
+    <a href="features.html" onclick="closeMobile()">Возможности</a>
+    <a href="rules.html" onclick="closeMobile()">Правила</a>
+    <a href="download.html" onclick="closeMobile()">Скачать</a>
+</div>
+
+<div class="page-hero">
+    <h1>Скачать <span style="color:var(--primary)">Real Mobile</span></h1>
+    <p>Загрузи игру и начни играть прямо сейчас</p>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="dl-card reveal">
+            <div class="dl-card-glow"></div>
+            <div class="dl-icon">📱</div>
+            <h2>Real Mobile APK</h2>
+            <p class="desc">Последняя версия игры для Android. Скачай, установи и присоединяйся к тысячам игроков на сервере Moscow.</p>
+            <p class="dl-meta">Размер: <span>~680 MB</span> &bull; Версия: <span>1.0.0</span> &bull; Android 7.0+</p>
+
+            <a href="RealMobile.apk" download class="btn btn-red" style="font-size:1rem; padding:16px 45px; margin-bottom:20px;">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Скачать APK
+            </a>
+
+            <p class="dl-note">Нажимая "Скачать", вы подтверждаете, что ознакомились с <a href="eula.html">Лицензионным соглашением</a> и <a href="privacy.html">Политикой конфиденциальности</a>.</p>
+        </div>
+
+        <div style="margin-top:60px;">
+            <div class="section-head reveal">
+                <div class="section-tag">Инструкция</div>
+                <h2 class="section-title">Как установить?</h2>
+            </div>
+
+            <div class="steps">
+                <div class="steps-line"></div>
+                <div class="step reveal">
+                    <div class="step-num">1</div>
+                    <h3>Скачай файл</h3>
+                    <p>Нажми кнопку "Скачать APK" выше. Файл загрузится на твое устройство.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">2</div>
+                    <h3>Разреши установку</h3>
+                    <p>Перейди в Настройки > Безопасность > Разреши установку из неизвестных источников.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">3</div>
+                    <h3>Установи и играй</h3>
+                    <p>Открой скачанный файл, нажми "Установить", дождись завершения и запусти игру.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:60px;">
+            <div class="section-head reveal">
+                <div class="section-tag">Требования</div>
+                <h2 class="section-title">Системные требования</h2>
+            </div>
+
+            <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); max-width:700px; margin:0 auto;">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📱</div>
+                    <h3>Минимальные</h3>
+                    <p>Android 7.0, 3 GB RAM, 2 GB свободного места, Adreno 506 / Mali-G71</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Рекомендуемые</h3>
+                    <p>Android 10+, 6 GB RAM, 4 GB свободного места, Adreno 640+ / Mali-G77+</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
+            <div class="footer-links">
+                <a href="eula.html">EULA</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="rules.html">Правила</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="to-top" id="toTop" onclick="goTop()">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
