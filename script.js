@@ -122,16 +122,14 @@ function initCounters() {
 document.addEventListener('DOMContentLoaded', initCounters);
 
 // ============================================
-// DYNAMIC ONLINE (simulate)
+// РУЧНОЕ УПРАВЛЕНИЕ ОНЛАЙНОМ (API ready)
 // ============================================
-setInterval(function () {
-    if (!countersStarted) return;
-    var base = 458;
-    var rnd = Math.floor(Math.random() * 30) - 15;
-    var val = base + rnd;
-
+// Вызывай эту функцию, чтобы обновить онлайн вручную или из API
+// Пример: updateOnline(458)
+function updateOnline(value) {
     var a = document.getElementById('cntOnline');
     var b = document.getElementById('srvOnline');
-    if (a) a.textContent = val;
-    if (b) b.textContent = val;
-}, 6000);
+    if (a) a.textContent = value.toLocaleString('ru-RU');
+    if (b) b.textContent = value.toLocaleString('ru-RU');
+}
+
