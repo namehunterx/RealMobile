@@ -1,4 +1,12 @@
 // ============================================
+// КОНФИГУРАЦИЯ
+// ============================================
+// Меняй эти цифры когда нужно:
+var ONLINE = 0;          // сколько сейчас онлайн
+var ACCOUNTS = 15200;    // всего аккаунтов
+var SLOTS = 1000;        // слотов на сервере
+
+// ============================================
 // PRELOADER
 // ============================================
 window.addEventListener('load', function () {
@@ -97,7 +105,17 @@ window.addEventListener('scroll', checkReveal);
 window.addEventListener('load', checkReveal);
 
 // ============================================
-// COUNTER OBSERVER (only on index page)
+// SET ONLINE EVERYWHERE
+// ============================================
+function setOnline() {
+    var a = document.getElementById('cntOnline');
+    var b = document.getElementById('srvOnline');
+    if (a) a.textContent = ONLINE;
+    if (b) b.textContent = ONLINE;
+}
+
+// ============================================
+// COUNTER OBSERVER
 // ============================================
 var countersStarted = false;
 
@@ -109,9 +127,9 @@ function initCounters() {
         entries.forEach(function (e) {
             if (e.isIntersecting && !countersStarted) {
                 countersStarted = true;
-                animateNum(document.getElementById('cntOnline'), 458, 2000);
-                animateNum(document.getElementById('cntAccounts'), 15200, 2500);
-                animateNum(document.getElementById('srvOnline'), 458, 2000);
+                animateNum(document.getElementById('cntOnline'), ONLINE, 2000);
+                animateNum(document.getElementById('cntAccounts'), ACCOUNTS, 2500);
+                animateNum(document.getElementById('srvOnline'), ONLINE, 2000);
             }
         });
     }, { threshold: 0.3 });
@@ -119,17 +137,12 @@ function initCounters() {
     obs.observe(heroCounters);
 }
 
-document.addEventListener('DOMContentLoaded', initCounters);
+document.addEventListener('DOMContentLoaded', function () {
+    initCounters();
 
-// ============================================
-// РУЧНОЕ УПРАВЛЕНИЕ ОНЛАЙНОМ (API ready)
-// ============================================
-// Вызывай эту функцию, чтобы обновить онлайн вручную или из API
-// Пример: updateOnline(458)
-function updateOnline(value) {
-    var a = document.getElementById('cntOnline');
-    var b = document.getElementById('srvOnline');
-    if (a) a.textContent = value.toLocaleString('ru-RU');
-    if (b) b.textContent = value.toLocaleString('ru-RU');
-}
-
+    // Для страниц без hero (server.html и тд)
+    var srvEl = document.getElementById('srvOnline');
+    if (srvEl && !document.querySelector('.hero-counters')) {
+        srvEl.textContent = ONLINE;
+    }
+});
