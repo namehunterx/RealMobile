@@ -3,1870 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Mobile — Официальный сайт</title>
-    <meta name="description" content="Real Mobile — мобильный проект в жанре RP. Скачай APK и начни играть прямо сейчас!">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-    <style>
-        /* ============================================
-           CSS RESET & BASE
-           ============================================ */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #00C853;
-            --primary-dark: #00A844;
-            --primary-glow: rgba(0, 200, 83, 0.3);
-            --accent: #00E676;
-            --bg-dark: #0a0a0a;
-            --bg-card: #111111;
-            --bg-card-hover: #1a1a1a;
-            --text-white: #ffffff;
-            --text-gray: #888888;
-            --text-light-gray: #cccccc;
-            --border-color: #222222;
-            --gradient-main: linear-gradient(135deg, #00C853 0%, #00E676 50%, #69F0AE 100%);
-            --gradient-dark: linear-gradient(180deg, #0a0a0a 0%, #0d1a0f 50%, #0a0a0a 100%);
-            --shadow-green: 0 0 40px rgba(0, 200, 83, 0.15);
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-white);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* ============================================
-           ANIMATED BACKGROUND
-           ============================================ */
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .bg-particles .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatParticle 8s infinite;
-        }
-
-        @keyframes floatParticle {
-            0% { opacity: 0; transform: translateY(100vh) scale(0); }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
-        }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            background-image: 
-                linear-gradient(rgba(0, 200, 83, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 200, 83, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        /* ============================================
-           PRELOADER
-           ============================================ */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .preloader-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
-        }
-
-        .preloader-logo .real {
-            color: var(--text-white);
-        }
-
-        .preloader-logo .mobile {
-            color: var(--primary);
-        }
-
-        .preloader-bar {
-            width: 200px;
-            height: 3px;
-            background: var(--border-color);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .preloader-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            animation: loadBar 2s ease-in-out forwards;
-        }
-
-        @keyframes loadBar {
-            0% { width: 0%; }
-            50% { width: 70%; }
-            100% { width: 100%; }
-        }
-
-        /* ============================================
-           HEADER / NAVBAR
-           ============================================ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 0 40px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-
-        .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            height: 70px;
-        }
-
-        .nav-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .nav-logo .real {
-            color: var(--text-white);
-        }
-
-        .nav-logo .mobile {
-            color: var(--primary);
-        }
-
-        .nav-logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.1rem;
-            color: #000;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 35px;
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-light-gray);
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-btn {
-            background: var(--gradient-main);
-            color: #000;
-            padding: 10px 28px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            text-transform: uppercase;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-green);
-        }
-
-        /* Mobile Menu */
-        .nav-hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .nav-hamburger span {
-            width: 28px;
-            height: 2px;
-            background: var(--text-white);
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .nav-hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .nav-hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .nav-hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.98);
-            z-index: 999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .mobile-menu.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-menu a {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-white);
-            transition: color 0.3s ease;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--primary);
-        }
-
-        /* ============================================
-           HERO SECTION
-           ============================================ */
-        .hero {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 120px 20px 80px;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .hero-bg-gradient {
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(0, 200, 83, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .hero-bg-circle {
-            position: absolute;
-            bottom: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            border: 1px solid rgba(0, 200, 83, 0.05);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: pulseCircle 4s ease-in-out infinite;
-        }
-
-        .hero-bg-circle:nth-child(2) {
-            width: 800px;
-            height: 800px;
-            animation-delay: 1s;
-        }
-
-        .hero-bg-circle:nth-child(3) {
-            width: 1000px;
-            height: 1000px;
-            animation-delay: 2s;
-        }
-
-        @keyframes pulseCircle {
-            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
-            50% { opacity: 0.6; transform: translateX(-50%) scale(1.05); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.2);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            animation: fadeInDown 1s ease 0.3s both;
-        }
-
-        .hero-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .hero-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 25px;
-            animation: fadeInUp 1s ease 0.5s both;
-        }
-
-        .hero-title .highlight {
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto 45px;
-            font-weight: 400;
-            line-height: 1.7;
-            animation: fadeInUp 1s ease 0.7s both;
-        }
-
-        .hero-buttons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.9s both;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 40px;
-            background: var(--gradient-main);
-            color: #000;
-            font-weight: 700;
-            font-size: 1rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(0, 200, 83, 0.3);
-        }
-
-        .btn-primary svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 40px;
-            background: transparent;
-            color: var(--text-white);
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            background: rgba(0, 200, 83, 0.05);
-            transform: translateY(-3px);
-        }
-
-        .hero-stats {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 60px;
-            animation: fadeInUp 1s ease 1.1s both;
-        }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .hero-stat-label {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        .hero-stat-divider {
-            width: 1px;
-            height: 40px;
-            background: var(--border-color);
-        }
-
-        /* ============================================
-           SCROLL DOWN INDICATOR
-           ============================================ */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            animation: fadeInUp 1s ease 1.3s both;
-            z-index: 2;
-        }
-
-        .scroll-indicator span {
-            font-size: 0.7rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .scroll-mouse {
-            width: 24px;
-            height: 38px;
-            border: 2px solid var(--text-gray);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .scroll-mouse::after {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 3px;
-            animation: scrollDown 2s infinite;
-        }
-
-        @keyframes scrollDown {
-            0% { top: 6px; opacity: 1; }
-            100% { top: 22px; opacity: 0; }
-        }
-
-        /* ============================================
-           SECTION STYLES
-           ============================================ */
-        .section {
-            position: relative;
-            z-index: 1;
-            padding: 100px 20px;
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 70px;
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 15px;
-        }
-
-        .section-desc {
-            font-size: 1.05rem;
-            color: var(--text-gray);
-            max-width: 550px;
-            margin: 0 auto;
-        }
-
-        /* ============================================
-           SERVER SECTION
-           ============================================ */
-        .server-section {
-            background: var(--gradient-dark);
-        }
-
-        .server-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 50px;
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .server-card:hover {
-            border-color: rgba(0, 200, 83, 0.3);
-            box-shadow: var(--shadow-green);
-            transform: translateY(-5px);
-        }
-
-        .server-card-glow {
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 200, 83, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .server-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.2);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-        }
-
-        .server-status .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        .server-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-
-        .server-name .city {
-            color: var(--primary);
-        }
-
-        .server-id {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-bottom: 35px;
-        }
-
-        .server-info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-bottom: 35px;
-        }
-
-        .server-info-item {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-        }
-
-        .server-info-value {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .server-info-label {
-            font-size: 0.75rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        .server-play-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 50px;
-            background: var(--gradient-main);
-            color: #000;
-            font-weight: 700;
-            font-size: 1rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .server-play-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(0, 200, 83, 0.3);
-        }
-
-        /* ============================================
-           FEATURES SECTION
-           ============================================ */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px 30px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(0, 200, 83, 0.3);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-card);
-        }
-
-        .feature-card-glow {
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(0, 200, 83, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.15);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 22px;
-            font-size: 1.5rem;
-        }
-
-        .feature-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .feature-desc {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           HOW TO START SECTION
-           ============================================ */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            position: relative;
-        }
-
-        .steps-line {
-            position: absolute;
-            top: 45px;
-            left: 16.66%;
-            right: 16.66%;
-            height: 2px;
-            background: var(--border-color);
-            z-index: 0;
-        }
-
-        .step-card {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 25px;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .step-card:hover .step-number {
-            border-color: var(--primary);
-            background: rgba(0, 200, 83, 0.1);
-            box-shadow: 0 0 30px rgba(0, 200, 83, 0.2);
-        }
-
-        .step-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .step-desc {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            max-width: 280px;
-            margin: 0 auto;
-        }
-
-        /* ============================================
-           DOWNLOAD SECTION
-           ============================================ */
-        .download-section {
-            background: var(--gradient-dark);
-        }
-
-        .download-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 70px 50px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-card-glow {
-            position: absolute;
-            top: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 200, 83, 0.06) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .download-icon {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 30px;
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.15);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-        }
-
-        .download-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-        }
-
-        .download-desc {
-            font-size: 1.05rem;
-            color: var(--text-gray);
-            max-width: 500px;
-            margin: 0 auto 15px;
-            line-height: 1.7;
-        }
-
-        .download-size {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            margin-bottom: 35px;
-        }
-
-        .download-size span {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 50px;
-            background: var(--gradient-main);
-            color: #000;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(0, 200, 83, 0.3);
-        }
-
-        .download-btn svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .download-note {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            max-width: 400px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .download-note a {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-
-        /* ============================================
-           COMMUNITY SECTION
-           ============================================ */
-        .community-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .community-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 35px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .community-card:hover {
-            border-color: rgba(0, 200, 83, 0.3);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-card);
-        }
-
-        .community-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .community-icon.telegram {
-            background: rgba(0, 136, 204, 0.15);
-            border: 1px solid rgba(0, 136, 204, 0.2);
-        }
-
-        .community-icon.tiktok {
-            background: rgba(255, 0, 80, 0.15);
-            border: 1px solid rgba(255, 0, 80, 0.2);
-        }
-
-        .community-icon svg {
-            width: 26px;
-            height: 26px;
-        }
-
-        .community-info h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .community-info p {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-        }
-
-        /* ============================================
-           FOOTER
-           ============================================ */
-        .footer {
-            position: relative;
-            z-index: 1;
-            border-top: 1px solid var(--border-color);
-            padding: 50px 20px 30px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 40px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .footer-brand {
-            max-width: 350px;
-        }
-
-        .footer-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-logo .real {
-            color: var(--text-white);
-        }
-
-        .footer-logo .mobile {
-            color: var(--primary);
-        }
-
-        .footer-brand p {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            line-height: 1.7;
-        }
-
-        .footer-links-group h4 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 18px;
-            color: var(--text-white);
-        }
-
-        .footer-links-group a {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links-group a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border-color);
-            padding-top: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .footer-copyright {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-        }
-
-        .footer-legal {
-            display: flex;
-            gap: 25px;
-        }
-
-        .footer-legal a {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            transition: color 0.3s ease;
-        }
-
-        .footer-legal a:hover {
-            color: var(--primary);
-        }
-
-        /* ============================================
-           ANIMATIONS
-           ============================================ */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ============================================
-           BACK TO TOP
-           ============================================ */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 48px;
-            height: 48px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            border-color: var(--primary);
-            background: rgba(0, 200, 83, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .back-to-top svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--text-white);
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 1024px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .nav-hamburger {
-                display: flex;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .hero-stats {
-                gap: 25px;
-            }
-
-            .hero-stat-number {
-                font-size: 1.5rem;
-            }
-
-            .server-card {
-                padding: 35px 25px;
-            }
-
-            .server-info-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .server-name {
-                font-size: 2rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .steps-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .steps-line {
-                display: none;
-            }
-
-            .community-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .download-card {
-                padding: 50px 25px;
-            }
-
-            .footer-top {
-                flex-direction: column;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-legal {
-                justify-content: center;
-            }
-
-            .section {
-                padding: 70px 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn-primary, .btn-secondary {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .hero-stat-divider {
-                width: 40px;
-                height: 1px;
-            }
-        }
-    </style>
+    <title>Real Mobile - Официальный сайт</title>
+    <meta name="description" content="Real Mobile - мобильный RP проект. Скачай APK и начни играть прямо сейчас!">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-logo">
-            <span class="real">REAL</span><span class="mobile">MOBILE</span>
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+    <div class="preloader-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+    <div class="preloader-spinner"></div>
+</div>
+
+<!-- BG -->
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">RM</div>
+        <span class="w">REAL</span><span class="r">MOBILE</span>
+    </a>
+
+    <div class="nav-menu">
+        <a href="index.html" class="active">Главная</a>
+        <a href="server.html">Сервер</a>
+        <a href="features.html">Возможности</a>
+        <a href="rules.html">Правила</a>
+        <a href="download.html" class="nav-download">Скачать</a>
+    </div>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="server.html" onclick="closeMobile()">Сервер</a>
+    <a href="features.html" onclick="closeMobile()">Возможности</a>
+    <a href="rules.html" onclick="closeMobile()">Правила</a>
+    <a href="download.html" onclick="closeMobile()">Скачать</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-tag"><span class="pulse"></span> Сервер онлайн</div>
+        <h1><span class="red">REAL</span> MOBILE</h1>
+        <p class="hero-sub">Мобильный RP проект нового поколения. Уникальный игровой мир, живое сообщество и бесконечные возможности.</p>
+
+        <div class="hero-btns">
+            <a href="download.html" class="btn btn-red">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Скачать APK
+            </a>
+            <a href="features.html" class="btn btn-outline">Узнать больше</a>
         </div>
-        <div class="preloader-bar">
-            <div class="preloader-bar-fill"></div>
+
+        <div class="hero-counters">
+            <div class="hero-counter">
+                <div class="hero-counter-num" id="cntOnline">0</div>
+                <div class="hero-counter-label">Онлайн</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-counter">
+                <div class="hero-counter-num">1</div>
+                <div class="hero-counter-label">Сервер</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-counter">
+                <div class="hero-counter-num" id="cntAccounts">0</div>
+                <div class="hero-counter-label">Аккаунтов</div>
+            </div>
         </div>
     </div>
 
-    <!-- Background Effects -->
-    <div class="bg-grid"></div>
-    <div class="bg-particles" id="particles"></div>
-
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo" onclick="scrollToTop()">
-            <div class="nav-logo-icon">RM</div>
-            <span class="real">REAL</span><span class="mobile">MOBILE</span>
-        </div>
-
-        <div class="nav-links">
-            <a href="#server">Сервер</a>
-            <a href="#features">Возможности</a>
-            <a href="#howto">Как начать</a>
-            <a href="#community">Сообщество</a>
-            <a href="#download" class="nav-btn">Скачать</a>
-        </div>
-
-        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#server" onclick="toggleMenu()">Сервер</a>
-        <a href="#features" onclick="toggleMenu()">Возможности</a>
-        <a href="#howto" onclick="toggleMenu()">Как начать</a>
-        <a href="#community" onclick="toggleMenu()">Сообщество</a>
-        <a href="#download" onclick="toggleMenu()" style="color: var(--primary);">Скачать APK</a>
+    <div class="scroll-hint">
+        <div class="scroll-mouse"></div>
+        <span class="scroll-hint-text">Листай вниз</span>
     </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-bg-gradient"></div>
-        <div class="hero-bg-circle"></div>
-        <div class="hero-bg-circle"></div>
-        <div class="hero-bg-circle"></div>
-
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="dot"></span>
-                Сервер Online
-            </div>
-
-            <h1 class="hero-title">
-                <span class="highlight">REAL</span> MOBILE
-            </h1>
-
-            <p class="hero-subtitle">
-                Погрузись в мир мобильного RP. Уникальный игровой опыт, 
-                живое сообщество и бесконечные возможности ждут тебя.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="#download" class="btn-primary">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                    </svg>
-                    Скачать APK
-                </a>
-                <a href="#features" class="btn-secondary">
-                    Узнать больше
-                </a>
-            </div>
-
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-number" id="counterPlayers">0</div>
-                    <div class="hero-stat-label">Игроков онлайн</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">1</div>
-                    <div class="hero-stat-label">Сервер</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number" id="counterAccounts">0</div>
-                    <div class="hero-stat-label">Аккаунтов</div>
-                </div>
-            </div>
+<!-- Server Preview -->
+<section class="section" style="background: var(--gradient-dark);">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="section-tag">Игровой сервер</div>
+            <h2 class="section-title">Сервер Moscow</h2>
+            <p class="section-desc">Один мощный сервер для стабильной игры</p>
         </div>
 
-        <div class="scroll-indicator">
-            <div class="scroll-mouse"></div>
-            <span>Листай вниз</span>
+        <div class="server-card reveal">
+            <div class="server-card-glow"></div>
+            <div class="server-badge"><span class="dot"></span> Online</div>
+            <h3 class="server-name">Real Mobile - <span class="red">Moscow</span></h3>
+            <p class="server-sub">Основной игровой сервер</p>
+
+            <div class="server-stats">
+                <div class="server-stat">
+                    <div class="server-stat-val" id="srvOnline">0</div>
+                    <div class="server-stat-label">Онлайн</div>
+                </div>
+                <div class="server-stat">
+                    <div class="server-stat-val">1000</div>
+                    <div class="server-stat-label">Слотов</div>
+                </div>
+                <div class="server-stat">
+                    <div class="server-stat-val">38ms</div>
+                    <div class="server-stat-label">Пинг</div>
+                </div>
+            </div>
+
+            <a href="download.html" class="btn btn-red">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+                Начать играть
+            </a>
         </div>
-    </section>
-
-    <!-- Server Section -->
-    <section class="section server-section" id="server">
-        <div class="section-container">
-            <div class="section-header fade-in">
-                <div class="section-label">Игровой сервер</div>
-                <h2 class="section-title">Выбери свой город</h2>
-                <p class="section-desc">Один мощный сервер — стабильное соединение и максимум игроков</p>
-            </div>
-
-            <div class="server-card fade-in">
-                <div class="server-card-glow"></div>
-                <div class="server-status">
-                    <span class="status-dot"></span>
-                    Online
-                </div>
-                <h3 class="server-name">Real Mobile — <span class="city">Moscow</span></h3>
-                <p class="server-id">Основной игровой сервер</p>
-
-                <div class="server-info-grid">
-                    <div class="server-info-item">
-                        <div class="server-info-value" id="serverOnline">0</div>
-                        <div class="server-info-label">Онлайн</div>
-                    </div>
-                    <div class="server-info-item">
-                        <div class="server-info-value">1000</div>
-                        <div class="server-info-label">Слотов</div>
-                    </div>
-                    <div class="server-info-item">
-                        <div class="server-info-value">45ms</div>
-                        <div class="server-info-label">Пинг</div>
-                    </div>
-                </div>
-
-                <a href="#download" class="server-play-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    Начать играть
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <div class="section-container">
-            <div class="section-header fade-in">
-                <div class="section-label">Возможности</div>
-                <h2 class="section-title">Почему Real Mobile?</h2>
-                <p class="section-desc">Мы создаём лучший мобильный RP-проект с уникальными возможностями</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">🏠</div>
-                    <h3 class="feature-title">Недвижимость</h3>
-                    <p class="feature-desc">Покупай дома и квартиры, обустраивай интерьер по своему вкусу и приглашай друзей</p>
-                </div>
-
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">🚗</div>
-                    <h3 class="feature-title">Транспорт</h3>
-                    <p class="feature-desc">Огромный автопарк: от бюджетных седанов до суперкаров и мотоциклов</p>
-                </div>
-
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">💼</div>
-                    <h3 class="feature-title">Работы и бизнес</h3>
-                    <p class="feature-desc">Множество профессий и возможность открыть собственный бизнес в городе</p>
-                </div>
-
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">👥</div>
-                    <h3 class="feature-title">Организации</h3>
-                    <p class="feature-desc">Вступай в государственные структуры или создай свою банду и захватывай территории</p>
-                </div>
-
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">🎮</div>
-                    <h3 class="feature-title">Мини-игры</h3>
-                    <p class="feature-desc">Казино, гонки, дерби и множество других развлечений для отдыха</p>
-                </div>
-
-                <div class="feature-card fade-in">
-                    <div class="feature-card-glow"></div>
-                    <div class="feature-icon">🔄</div>
-                    <h3 class="feature-title">Обновления</h3>
-                    <p class="feature-desc">Регулярные обновления с новым контентом, ивентами и улучшениями</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How To Start Section -->
-    <section class="section" id="howto" style="background: var(--gradient-dark);">
-        <div class="section-container">
-            <div class="section-header fade-in">
-                <div class="section-label">Начало игры</div>
-                <h2 class="section-title">Как начать играть?</h2>
-                <p class="section-desc">Три простых шага — и ты уже в игре</p>
-            </div>
-
-            <div class="steps-grid">
-                <div class="steps-line"></div>
-
-                <div class="step-card fade-in">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Скачай APK</h3>
-                    <p class="step-desc">Загрузи установочный файл с нашего официального сайта</p>
-                </div>
-
-                <div class="step-card fade-in">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Установи игру</h3>
-                    <p class="step-desc">Разреши установку из неизвестных источников и установи приложение</p>
-                </div>
-
-                <div class="step-card fade-in">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Играй!</h3>
-                    <p class="step-desc">Создай персонажа, выбери сервер Moscow и погрузись в мир RP</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Download Section -->
-    <section class="section download-section" id="download">
-        <div class="section-container">
-            <div class="download-card fade-in">
-                <div class="download-card-glow"></div>
-                <div class="download-icon">📱</div>
-                <h2 class="download-title">Скачать Real Mobile</h2>
-                <p class="download-desc">Загрузи последнюю версию игры и присоединяйся к тысячам игроков</p>
-                <p class="download-size">Размер файла: <span>~650 MB</span> • Версия: <span>1.0.0</span> • Android 7.0+</p>
-                
-                <a href="#" class="download-btn" id="downloadBtn">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                    </svg>
-                    Скачать APK
-                </a>
-                
-                <p class="download-note">
-                    Нажимая «Скачать», вы соглашаетесь с 
-                    <a href="#eula">Пользовательским соглашением</a> 
-                    и <a href="#privacy">Политикой конфиденциальности</a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Section -->
-    <section class="section" id="community">
-        <div class="section-container">
-            <div class="section-header fade-in">
-                <div class="section-label">Сообщество</div>
-                <h2 class="section-title">Будь на связи</h2>
-                <p class="section-desc">Подпишись на наши официальные каналы, чтобы не пропустить обновления</p>
-            </div>
-
-            <div class="community-grid">
-                <a href="https://t.me/Real_Mobile_Official" target="_blank" class="community-card fade-in">
-                    <div class="community-icon telegram">
-                        <svg viewBox="0 0 24 24" fill="#0088CC">
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                        </svg>
-                    </div>
-                    <div class="community-info">
-                        <h3>Telegram</h3>
-                        <p>Официальный канал новостей</p>
-                    </div>
-                </a>
-
-                <a href="https://www.tiktok.com/@realmobila?_r=1&_t=ZT-96ug0Bj5Pcj" target="_blank" class="community-card fade-in">
-                    <div class="community-icon tiktok">
-                        <svg viewBox="0 0 24 24" fill="#FF0050">
-                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                        </svg>
-                    </div>
-                    <div class="community-info">
-                        <h3>TikTok</h3>
-                        <p>Видео контент и моменты</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <span class="real">REAL</span><span class="mobile">MOBILE</span>
-                    </div>
-                    <p>Real Mobile — мобильный проект в жанре RP. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан в развлекательных целях.</p>
-                </div>
-
-                <div class="footer-links-group">
-                    <h4>Навигация</h4>
-                    <a href="#hero">Главная</a>
-                    <a href="#server">Сервер</a>
-                    <a href="#features">Возможности</a>
-                    <a href="#download">Скачать</a>
-                </div>
-
-                <div class="footer-links-group">
-                    <h4>Правовая информация</h4>
-                    <a href="#eula">Пользовательское соглашение</a>
-                    <a href="#privacy">Политика конфиденциальности</a>
-                    <a href="#rules">Правила проекта</a>
-                    <a href="#refund">Политика возвратов</a>
-                </div>
-
-                <div class="footer-links-group">
-                    <h4>Сообщество</h4>
-                    <a href="https://t.me/Real_Mobile_Official" target="_blank">Telegram</a>
-                    <a href="https://www.tiktok.com/@realmobila?_r=1&_t=ZT-96ug0Bj5Pcj" target="_blank">TikTok</a>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p class="footer-copyright">© 2024–2025 Real Mobile Games Studio. Все права защищены.</p>
-                <div class="footer-legal">
-                    <a href="#eula">EULA</a>
-                    <a href="#privacy">Конфиденциальность</a>
-                    <a href="#rules">Правила</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top -->
-    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
-        <svg viewBox="0 0 24 24">
-            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-        </svg>
     </div>
+</section>
 
-    <!-- JavaScript -->
-    <script>
-        // ============================================
-        // PRELOADER
-        // ============================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 2200);
-        });
+<!-- Quick Features -->
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="section-tag">Возможности</div>
+            <h2 class="section-title">Что тебя ждет?</h2>
+            <p class="section-desc">Огромный мир с десятками уникальных систем</p>
+        </div>
 
-        // ============================================
-        // PARTICLES
-        // ============================================
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 6 + 6) + 's';
-                particle.style.width = (Math.random() * 3 + 1) + 'px';
-                particle.style.height = particle.style.width;
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🏠</div>
+                <h3>Недвижимость</h3>
+                <p>Покупай дома и квартиры, обустраивай интерьер и приглашай друзей</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🚗</div>
+                <h3>Транспорт</h3>
+                <p>Огромный автопарк: седаны, суперкары, мотоциклы и спецтехника</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">💼</div>
+                <h3>Работы и бизнес</h3>
+                <p>Десятки профессий и возможность открыть собственный бизнес</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">👥</div>
+                <h3>Организации</h3>
+                <p>Государственные структуры, банды и мафиозные кланы</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎮</div>
+                <h3>Мини-игры</h3>
+                <p>Казино, гонки, дерби и множество развлечений</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔄</div>
+                <h3>Обновления</h3>
+                <p>Еженедельные обновления с новым контентом и ивентами</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // ============================================
-        // NAVBAR SCROLL EFFECT
-        // ============================================
-        const navbar = document.getElementById('navbar');
-        const backToTop = document.getElementById('backToTop');
+<!-- How to Start -->
+<section class="section" style="background: var(--gradient-dark);">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="section-tag">Начало игры</div>
+            <h2 class="section-title">Как начать играть?</h2>
+            <p class="section-desc">Три простых шага</p>
+        </div>
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+        <div class="steps">
+            <div class="steps-line"></div>
+            <div class="step reveal">
+                <div class="step-num">1</div>
+                <h3>Скачай APK</h3>
+                <p>Загрузи файл с нашего сайта на свой Android-смартфон</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">2</div>
+                <h3>Установи</h3>
+                <p>Разреши установку из неизвестных источников и установи приложение</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">3</div>
+                <h3>Играй!</h3>
+                <p>Создай персонажа, зайди на сервер Moscow и начни свою историю</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-            if (window.scrollY > 600) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
+<!-- Community -->
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="section-tag">Сообщество</div>
+            <h2 class="section-title">Будь на связи</h2>
+            <p class="section-desc">Подпишись, чтобы не пропустить новости</p>
+        </div>
 
-        // ============================================
-        // MOBILE MENU
-        // ============================================
-        function toggleMenu() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        }
+        <div class="community-grid">
+            <a href="https://t.me/Real_Mobile_Official" target="_blank" class="comm-card reveal">
+                <div class="comm-icon tg">
+                    <svg viewBox="0 0 24 24" fill="#0088CC"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </div>
+                <div class="comm-info">
+                    <h3>Telegram</h3>
+                    <p>Новости и обновления</p>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@realmobila" target="_blank" class="comm-card reveal">
+                <div class="comm-icon tt">
+                    <svg viewBox="0 0 24 24" fill="#FF0050"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                </div>
+                <div class="comm-info">
+                    <h3>TikTok</h3>
+                    <p>Видео и моменты</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
 
-        // ============================================
-        // SCROLL TO TOP
-        // ============================================
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+                <p>Real Mobile - мобильный RP проект. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан исключительно в развлекательных целях.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Главная</a>
+                <a href="server.html">Сервер</a>
+                <a href="features.html">Возможности</a>
+                <a href="download.html">Скачать</a>
+            </div>
+            <div class="footer-col">
+                <h4>Документы</h4>
+                <a href="rules.html">Правила проекта</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="eula.html">Лицензионное соглашение</a>
+            </div>
+            <div class="footer-col">
+                <h4>Соц. сети</h4>
+                <a href="https://t.me/Real_Mobile_Official" target="_blank">Telegram</a>
+                <a href="https://www.tiktok.com/@realmobila" target="_blank">TikTok</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
+            <div class="footer-links">
+                <a href="eula.html">EULA</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="rules.html">Правила</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-        // ============================================
-        // COUNTER ANIMATION
-        // ============================================
-        function animateCounter(elementId, target, duration) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            const start = 0;
-            const startTime = performance.now();
+<!-- Back to top -->
+<div class="to-top" id="toTop" onclick="goTop()">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</div>
 
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(start + (target - start) * easeOut);
-
-                if (target >= 1000) {
-                    element.textContent = current.toLocaleString('ru-RU');
-                } else {
-                    element.textContent = current;
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-
-            requestAnimationFrame(update);
-        }
-
-        // ============================================
-        // INTERSECTION OBSERVER FOR ANIMATIONS
-        // ============================================
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    fadeObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            fadeObserver.observe(el);
-        });
-
-        // Counter Observer
-        let countersStarted = false;
-        const heroObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !countersStarted) {
-                    countersStarted = true;
-                    animateCounter('counterPlayers', 347, 2000);
-                    animateCounter('counterAccounts', 12500, 2500);
-                    animateCounter('serverOnline', 347, 2000);
-                }
-            });
-        }, { threshold: 0.3 });
-
-        const heroStats = document.querySelector('.hero-stats');
-        if (heroStats) heroObserver.observe(heroStats);
-
-        // ============================================
-        // SMOOTH SCROLL FOR ANCHOR LINKS
-        // ============================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#eula' || href === '#privacy' || href === '#rules' || href === '#refund') return;
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    const offset = 80;
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                }
-            });
-        });
-
-        // ============================================
-        // DYNAMIC ONLINE COUNTER (Simulate)
-        // ============================================
-        setInterval(() => {
-            const baseOnline = 347;
-            const variation = Math.floor(Math.random() * 20) - 10;
-            const newOnline = baseOnline + variation;
-            
-            const counterEl = document.getElementById('counterPlayers');
-            const serverEl = document.getElementById('serverOnline');
-            
-            if (counterEl && countersStarted) {
-                counterEl.textContent = newOnline;
-            }
-            if (serverEl && countersStarted) {
-                serverEl.textContent = newOnline;
-            }
-        }, 5000);
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
