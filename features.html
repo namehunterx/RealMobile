@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Возможности - Real Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+    <div class="preloader-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+    <div class="preloader-spinner"></div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">RM</div>
+        <span class="w">REAL</span><span class="r">MOBILE</span>
+    </a>
+    <div class="nav-menu">
+        <a href="index.html">Главная</a>
+        <a href="server.html">Сервер</a>
+        <a href="features.html" class="active">Возможности</a>
+        <a href="rules.html">Правила</a>
+        <a href="download.html" class="nav-download">Скачать</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="server.html" onclick="closeMobile()">Сервер</a>
+    <a href="features.html" onclick="closeMobile()">Возможности</a>
+    <a href="rules.html" onclick="closeMobile()">Правила</a>
+    <a href="download.html" onclick="closeMobile()">Скачать</a>
+</div>
+
+<div class="page-hero">
+    <h1>Возможности <span style="color:var(--primary)">Real Mobile</span></h1>
+    <p>Все, что тебя ждет в игровом мире</p>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🏠</div>
+                <h3>Недвижимость</h3>
+                <p>Более 200 домов и квартир по всему городу. Уникальные интерьеры, мебель и декор на любой вкус.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🚗</div>
+                <h3>Транспорт</h3>
+                <p>Более 150 видов транспорта: машины, мотоциклы, лодки, вертолеты и спецтехника.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">💼</div>
+                <h3>Работы</h3>
+                <p>Таксист, дальнобойщик, пилот, фермер, механик и десятки других профессий.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🏢</div>
+                <h3>Бизнесы</h3>
+                <p>Открывай магазины, заправки, автомойки и зарабатывай пассивный доход.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">👥</div>
+                <h3>Организации</h3>
+                <p>Полиция, медики, армия, ФБР или создай свою банду и захватывай территории.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎰</div>
+                <h3>Казино</h3>
+                <p>Рулетка, покер, слоты и другие азартные игры для любителей рисковать.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🏎️</div>
+                <h3>Гонки</h3>
+                <p>Уличные гонки, дрифт-соревнования и турниры с денежными призами.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎭</div>
+                <h3>Ролевая игра</h3>
+                <p>Полноценная RP-система с документами, лицензиями и ролевыми ситуациями.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔄</div>
+                <h3>Обновления</h3>
+                <p>Еженедельные обновления: новые машины, дома, работы, ивенты и многое другое.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background: var(--gradient-dark);">
+    <div class="container" style="text-align:center;">
+        <h2 class="section-title reveal">Готов попробовать?</h2>
+        <p class="section-desc reveal" style="margin-bottom:30px;">Скачай Real Mobile и начни свою историю прямо сейчас</p>
+        <a href="download.html" class="btn btn-red reveal">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Скачать APK
+        </a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
+            <div class="footer-links">
+                <a href="eula.html">EULA</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="rules.html">Правила</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="to-top" id="toTop" onclick="goTop()">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
