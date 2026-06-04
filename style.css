@@ -1214,3 +1214,237 @@ img {
     .hero-counters { flex-direction: column; gap: 16px; }
     .hero-divider { width: 40px; height: 1px; }
 }
+/* ============================================
+   SERVER FILL BAR
+   ============================================ */
+.server-fill-bar {
+    margin: 25px 0 30px;
+}
+
+.server-fill-track {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.server-fill-progress {
+    height: 100%;
+    background: var(--gradient-red);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 10px rgba(227, 28, 37, 0.4);
+}
+
+.server-fill-text {
+    font-size: 0.72rem;
+    color: var(--text-gray);
+    letter-spacing: 0.5px;
+}
+
+.server-fill-text span {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ============================================
+   FEATURE CARD LINE (top accent)
+   ============================================ */
+.feature-card-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-red);
+    transition: width 0.5s ease;
+}
+
+.feature-card:hover .feature-card-line {
+    width: 100%;
+}
+
+/* ============================================
+   STATS BANNER
+   ============================================ */
+.stats-banner {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 50px 20px;
+}
+
+.stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.stat-block {
+    text-align: center;
+}
+
+.stat-block-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.stat-block-label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-light);
+}
+
+/* ============================================
+   STEP ICON HINT
+   ============================================ */
+.step-icon-hint {
+    margin-top: 14px;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    transition: all var(--transition);
+}
+
+.step:hover .step-icon-hint {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ============================================
+   WHY US GRID
+   ============================================ */
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.why-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 35px 30px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.why-card:hover {
+    border-color: rgba(227, 28, 37, 0.25);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+}
+
+.why-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    opacity: 0.15;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    line-height: 1;
+}
+
+.why-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.why-card p {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   CTA CARD
+   ============================================ */
+.cta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-glow {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(227, 28, 37, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+}
+
+.cta-content h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.cta-content p {
+    font-size: 1rem;
+    color: var(--text-gray);
+    max-width: 450px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+}
+
+/* ============================================
+   RESPONSIVE (additions)
+   ============================================ */
+@media (max-width: 768px) {
+    .stats-row {
+        gap: 25px;
+    }
+
+    .stat-block-num {
+        font-size: 1.6rem;
+    }
+
+    .stat-divider {
+        display: none;
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+        padding: 40px 20px;
+    }
+}
