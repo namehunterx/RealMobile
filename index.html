@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Mobile - Официальный сайт</title>
-    <meta name="description" content="Real Mobile - мобильный RP проект. Скачай APK и начни играть прямо сейчас!">
+    <title>Real Mobile — Официальный сайт</title>
+    <meta name="description" content="Real Mobile — мобильный RP проект. Скачай APK и начни играть прямо сейчас!">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
     <div class="preloader-spinner"></div>
 </div>
 
-<!-- BG -->
+<!-- Background Effects -->
 <div class="bg-grid"></div>
 <div class="bg-noise"></div>
 
@@ -39,7 +40,7 @@
     </div>
 </nav>
 
-<!-- Mobile Nav -->
+<!-- Mobile Navigation Overlay -->
 <div class="mobile-nav" id="mobileNav">
     <a href="index.html" onclick="closeMobile()">Главная</a>
     <a href="server.html" onclick="closeMobile()">Сервер</a>
@@ -48,11 +49,13 @@
     <a href="download.html" onclick="closeMobile()">Скачать</a>
 </div>
 
-<!-- Hero -->
+<!-- Hero Section -->
 <section class="hero">
     <div class="hero-glow"></div>
     <div class="hero-content">
-        <div class="hero-tag"><span class="pulse"></span> Тех.Работы</div>
+        <!-- Статус меняется через админку -->
+        <div class="hero-tag"><span class="pulse"></span> Загрузка...</div>
+        
         <h1><span class="red">REAL</span> MOBILE</h1>
         <p class="hero-sub">Мобильный RP проект нового поколения. Уникальный игровой мир, живое сообщество и бесконечные возможности.</p>
 
@@ -71,7 +74,7 @@
     </div>
 </section>
 
-<!-- Server Preview - ТОЛЬКО ОНЛАЙН/СЛОТЫ/ПИНГ -->
+<!-- Server Preview Section -->
 <section class="section" style="background: var(--gradient-dark);">
     <div class="container">
         <div class="section-head reveal">
@@ -82,8 +85,10 @@
 
         <div class="server-card reveal">
             <div class="server-card-glow"></div>
-            <div class="server-badge"><span class="dot"></span> Тех.Работы</div>
-            <h3 class="server-name">Real Mobile - <span class="red">Moscow</span></h3>
+            <!-- Статус меняется через админку -->
+            <div class="server-badge"><span class="dot"></span> Загрузка...</div>
+            
+            <h3 class="server-name">Real Mobile — <span class="red">Moscow</span></h3>
             <p class="server-sub">Основной игровой сервер</p>
 
             <div class="server-stats">
@@ -92,15 +97,18 @@
                     <div class="server-stat-label">Онлайн</div>
                 </div>
                 <div class="server-stat">
-                    <div class="server-stat-val">1000</div>
+                    <!-- data-slots привязан к админке -->
+                    <div class="server-stat-val" data-slots>1000</div>
                     <div class="server-stat-label">Слотов</div>
                 </div>
                 <div class="server-stat">
-                    <div class="server-stat-val">0ms</div>
+                    <!-- data-ping привязан к админке -->
+                    <div class="server-stat-val" data-ping>0ms</div>
                     <div class="server-stat-label">Пинг</div>
                 </div>
             </div>
 
+            <!-- Полоска заполненности (анимируется через скрипт) -->
             <div class="server-fill-bar">
                 <div class="server-fill-track">
                     <div class="server-fill-progress" id="srvFill"></div>
@@ -116,7 +124,7 @@
     </div>
 </section>
 
-<!-- Features -->
+<!-- Features Grid -->
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
@@ -166,13 +174,12 @@
     </div>
 </section>
 
-<!-- Stats Banner - КАРТОЧКАМИ -->
+<!-- Stats Mini Cards (Цифры проекта) -->
 <section class="section" style="background: var(--gradient-dark);">
     <div class="container">
         <div class="section-head reveal">
-            <div class="section-tag">Цифры проекта</div>
-            <h2 class="section-title">Real Mobile в цифрах</h2>
-            <p class="section-desc">Масштаб нашего игрового мира</p>
+            <div class="section-tag">Статистика</div>
+            <h2 class="section-title">Мир в цифрах</h2>
         </div>
 
         <div class="stats-cards">
@@ -200,7 +207,7 @@
     </div>
 </section>
 
-<!-- How to Start -->
+<!-- How to Start Steps -->
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
@@ -233,7 +240,7 @@
     </div>
 </section>
 
-<!-- Why Us -->
+<!-- Why Us Benefits -->
 <section class="section" style="background: var(--gradient-dark);">
     <div class="container">
         <div class="section-head reveal">
@@ -245,7 +252,7 @@
             <div class="why-card reveal">
                 <div class="why-num">01</div>
                 <h3>Уникальный мод</h3>
-                <p>Собственная разработка с нуля - никаких копий и шаблонов. Каждая система продумана для максимального удовольствия.</p>
+                <p>Собственная разработка с нуля — никаких копий и шаблонов. Каждая система продумана для максимального удовольствия.</p>
             </div>
             <div class="why-card reveal">
                 <div class="why-num">02</div>
@@ -266,7 +273,7 @@
     </div>
 </section>
 
-<!-- Community -->
+<!-- Community Links -->
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
@@ -298,7 +305,7 @@
     </div>
 </section>
 
-<!-- CTA Download -->
+<!-- CTA Download Card -->
 <section class="section" style="background: var(--gradient-dark);">
     <div class="container">
         <div class="cta-card reveal">
@@ -321,7 +328,7 @@
         <div class="footer-top">
             <div class="footer-brand">
                 <div class="footer-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
-                <p>Real Mobile - мобильный RP проект. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан исключительно в развлекательных целях.</p>
+                <p>Real Mobile — мобильный RP проект. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан исключительно в развлекательных целях.</p>
             </div>
             <div class="footer-col">
                 <h4>Навигация</h4>
@@ -353,11 +360,13 @@
     </div>
 </footer>
 
-<!-- Back to top -->
+<!-- Back to top button -->
 <div class="to-top" id="toTop" onclick="goTop()">
     <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
 </div>
 
+<!-- Scripts Inclusion -->
+<script src="config.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
