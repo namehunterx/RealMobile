@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Скачать - Real Mobile</title>
+    <title>Скачать — Real Mobile</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,7 +53,13 @@
             <div class="dl-icon">📱</div>
             <h2>Real Mobile APK</h2>
             <p class="desc">Последняя версия игры для Android. Скачай, установи и присоединяйся к тысячам игроков на сервере Moscow.</p>
-            <p class="dl-meta">Размер: <span>~680 MB</span> &bull; Версия: <span>1.0.0</span> &bull; Android 7.0+</p>
+            
+            <!-- Данные ниже теперь связаны с админкой через ID -->
+            <p class="dl-meta">
+                Размер: <span id="dlSize">~680 MB</span> &bull; 
+                Версия: <span id="dlVersion">1.0.0</span> &bull; 
+                Android 7.0+
+            </p>
 
             <a href="RealMobile.apk" download class="btn btn-red" style="font-size:1rem; padding:16px 45px; margin-bottom:20px;">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
@@ -97,11 +103,13 @@
 
             <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); max-width:700px; margin:0 auto;">
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">📱</div>
                     <h3>Минимальные</h3>
                     <p>Android 7.0, 3 GB RAM, 2 GB свободного места, Adreno 506 / Mali-G71</p>
                 </div>
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">🚀</div>
                     <h3>Рекомендуемые</h3>
                     <p>Android 10+, 6 GB RAM, 4 GB свободного места, Adreno 640+ / Mali-G77+</p>
@@ -113,6 +121,30 @@
 
 <footer class="footer">
     <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+                <p>Real Mobile — мобильный RP проект. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан исключительно в развлекательных целях.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Главная</a>
+                <a href="server.html">Сервер</a>
+                <a href="features.html">Возможности</a>
+                <a href="download.html">Скачать</a>
+            </div>
+            <div class="footer-col">
+                <h4>Документы</h4>
+                <a href="rules.html">Правила проекта</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="eula.html">Лицензионное соглашение</a>
+            </div>
+            <div class="footer-col">
+                <h4>Соц. сети</h4>
+                <a href="https://t.me/Real_Mobile_Official" target="_blank">Telegram</a>
+                <a href="https://www.tiktok.com/@realmobila" target="_blank">TikTok</a>
+            </div>
+        </div>
         <div class="footer-bottom">
             <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
             <div class="footer-links">
@@ -128,6 +160,26 @@
     <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
 </div>
 
+<!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ (ОБЯЗАТЕЛЬНО ОБА) -->
+<script src="config.js"></script>
 <script src="script.js"></script>
+
+<script>
+    // Дополнительный микро-скрипт специально для страницы загрузки
+    function applyDownloadConfig() {
+        var cfg = window.SITE_CONFIG;
+        if (cfg) {
+            var sizeEl = document.getElementById('dlSize');
+            var verEl = document.getElementById('dlVersion');
+            if (sizeEl) sizeEl.textContent = cfg.apkSize;
+            if (verEl) verEl.textContent = cfg.version;
+        }
+    }
+    // Запускаем при загрузке
+    document.addEventListener('DOMContentLoaded', applyDownloadConfig);
+    // И при обновлении данных
+    window.addEventListener('storage', applyDownloadConfig);
+</script>
+
 </body>
 </html>
