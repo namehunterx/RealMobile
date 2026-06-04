@@ -24,9 +24,9 @@ var SECRET_KEYS = ['r', 'm', 'a', 'd', 'm', 'i', 'n'];
 var SESSION_MINUTES = 30;
 
 // Макс. попыток входа
-var MAX_ATTEMPTS = 3;
+var MAX_ATTEMPTS = 999;
 // Время блокировки в минутах
-var BLOCK_MINUTES = 5;
+var BLOCK_MINUTES = 0;
 
 // ============================================
 // ⚠️ ВАЖНО: По умолчанию доступы такие
