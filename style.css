@@ -1406,10 +1406,6 @@ img {
 
     .section { padding: 60px 20px; }
 
-    .stats-row { gap: 25px; }
-    .stat-block-num { font-size: 1.6rem; }
-    .stat-divider { display: none; }
-
     .why-grid { grid-template-columns: 1fr; }
 
     .cta-card { padding: 40px 20px; }
@@ -1425,4 +1421,98 @@ img {
 
     .hero-counters { flex-direction: column; gap: 16px; }
     .hero-divider { width: 40px; height: 1px; }
+}
+/* ============================================
+   STATS MINI CARDS (новые красивые карточки)
+   ============================================ */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-mini-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 35px 20px;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-mini-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(227, 28, 37, 0.05), transparent);
+    transition: left 0.6s ease;
+}
+
+.stat-mini-card:hover::before {
+    left: 100%;
+}
+
+.stat-mini-card:hover {
+    border-color: rgba(227, 28, 37, 0.3);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card);
+}
+
+.stat-mini-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    transition: transform var(--transition);
+}
+
+.stat-mini-card:hover .stat-mini-icon {
+    transform: scale(1.2);
+}
+
+.stat-mini-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.stat-mini-label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* Адаптив для карточек статистики */
+@media (max-width: 768px) {
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .stat-mini-card {
+        padding: 25px 15px;
+    }
+
+    .stat-mini-num {
+        font-size: 1.7rem;
+    }
+
+    .stat-mini-icon {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
