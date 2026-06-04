@@ -8,10 +8,8 @@
 // Логин
 var ADMIN_USER = "admin";
 
-// Пароль (в SHA-256). По умолчанию: RealMobile2026!
-// Чтобы изменить — открой https://emn178.github.io/online-tools/sha256.html
-// введи свой пароль и вставь хэш сюда
-var ADMIN_PASS_HASH = "8c6b7f1e3a4d5f9c2e6b8a1d4f7e3c5b9a2d6e8f1c4b7a3d6e9f2c5b8a1d4e7f";
+// Пароль (обычный текст)
+var ADMIN_PASS = "RealMobile2026!";
 
 // PIN (6 цифр). По умолчанию: 247365
 var ADMIN_PIN = "247365";
@@ -34,16 +32,6 @@ var BLOCK_MINUTES = 5;
 // Пароль: RealMobile2026!
 // PIN: 247365
 // ============================================
-
-// ============================================
-// SHA-256 функция
-// ============================================
-async function sha256(str) {
-    var buf = new TextEncoder().encode(str);
-    var hashBuf = await crypto.subtle.digest('SHA-256', buf);
-    var arr = Array.from(new Uint8Array(hashBuf));
-    return arr.map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 // ============================================
 // СЕКРЕТНАЯ КОМБИНАЦИЯ КЛАВИШ
@@ -141,7 +129,7 @@ updateAttemptsInfo();
 // ============================================
 // ФОРМА ВХОДА
 // ============================================
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
+document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     var errorEl = document.getElementById('loginError');
@@ -169,40 +157,37 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     btn.disabled = true;
     btn.textContent = 'Проверка...';
 
-    // Хэшируем введенный пароль
-    var passHash = await sha256(pass);
-
     // Задержка для защиты от перебора
-    await new Promise(r => setTimeout(r, 800));
-
-    if (user === ADMIN_USER && passHash === ADMIN_PASS_HASH && pin === ADMIN_PIN) {
-        // Успешно
-        localStorage.removeItem('rm_attempts');
-        createSession();
-        openPanel();
-    } else {
-        // Неудача
-        var attempts = getAttempts() + 1;
-        localStorage.setItem('rm_attempts', attempts);
-
-        if (attempts >= MAX_ATTEMPTS) {
-            localStorage.setItem('rm_block', JSON.stringify({
-                until: Date.now() + BLOCK_MINUTES * 60 * 1000
-            }));
+    setTimeout(function() {
+        if (user === ADMIN_USER && pass === ADMIN_PASS && pin === ADMIN_PIN) {
+            // Успешно
             localStorage.removeItem('rm_attempts');
-            errorEl.textContent = '⛔ Превышено количество попыток. Блокировка на ' + BLOCK_MINUTES + ' мин.';
+            createSession();
+            openPanel();
         } else {
-            errorEl.textContent = '❌ Неверные данные. Попыток осталось: ' + (MAX_ATTEMPTS - attempts);
-        }
-        errorEl.classList.add('show');
-        btn.disabled = false;
-        btn.textContent = 'Войти в систему';
+            // Неудача
+            var attempts = getAttempts() + 1;
+            localStorage.setItem('rm_attempts', attempts);
 
-        // Очищаем поля
-        document.getElementById('loginPass').value = '';
-        document.getElementById('loginPin').value = '';
-        updateAttemptsInfo();
-    }
+            if (attempts >= MAX_ATTEMPTS) {
+                localStorage.setItem('rm_block', JSON.stringify({
+                    until: Date.now() + BLOCK_MINUTES * 60 * 1000
+                }));
+                localStorage.removeItem('rm_attempts');
+                errorEl.textContent = '⛔ Превышено количество попыток. Блокировка на ' + BLOCK_MINUTES + ' мин.';
+            } else {
+                errorEl.textContent = '❌ Неверные данные. Попыток осталось: ' + (MAX_ATTEMPTS - attempts);
+            }
+            errorEl.classList.add('show');
+            btn.disabled = false;
+            btn.textContent = 'Войти в систему';
+
+            // Очищаем поля
+            document.getElementById('loginPass').value = '';
+            document.getElementById('loginPin').value = '';
+            updateAttemptsInfo();
+        }
+    }, 800);
 });
 
 // ============================================
