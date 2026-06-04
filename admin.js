@@ -1,27 +1,18 @@
-// REAL MOBILE - ADMIN CORE
-const MASTER = {
+// REAL MOBILE - SIMPLE ADMIN
+const ADMIN_DATA = {
     user: "dev",
-    hash: "0bfcf3c69af9e53644dd8cf1d060900652246fa283285daa769feb09f4afa999", // real2026
-    pin: "1289"
+    pass: "dev123"
 };
 
-const STATS_MAP = {
-    online: "Онлайн",
-    tech: "Тех.Работы",
-    closed: "Закрыт",
-    update: "Обновление",
-    restart: "Рестарт"
+const STATUS_LIST = {
+    online: { label: "ОНЛАЙН", color: "#00C853" },
+    tech: { label: "ТЕХ.РАБОТЫ", color: "#FF9800" },
+    closed: { label: "ЗАКРЫТ", color: "#E31C25" },
+    update: { label: "ОБНОВЛЕНИЕ", color: "#2196F3" },
+    restart: { label: "РЕСТАРТ", color: "#FFC107" }
 };
 
-// 1. Хэширование
-async function calcHash(str) {
-    const msgBuffer = new TextEncoder().encode(str);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-// 2. Открытие по коду
+// 1. Открытие по коду rmadmin
 let keys = "";
 document.addEventListener('keydown', e => {
     keys += e.key.toLowerCase();
@@ -33,111 +24,71 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// 3. Логика входа
-document.getElementById('loginForm').addEventListener('submit', async e => {
+// 2. Вход (Простой вариант)
+document.getElementById('loginForm').addEventListener('submit', e => {
     e.preventDefault();
     const u = document.getElementById('loginUser').value;
     const p = document.getElementById('loginPass').value;
-    const n = document.getElementById('loginPin').value;
 
-    const h = await calcHash(p);
-
-    if (u === MASTER.user && h === MASTER.hash && n === MASTER.pin) {
-        showPanel();
+    if (u === ADMIN_DATA.user && p === ADMIN_DATA.pass) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadData();
     } else {
-        // Проверка команды
-        let team = JSON.parse(localStorage.getItem('rm_team') || "[]");
-        let dev = team.find(a => a.user === u && a.pass === p && a.pin === n);
-        if (dev) showPanel();
-        else alert("ОШИБКА");
+        alert("Неверный логин или пароль!");
     }
 });
 
-function showPanel() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    loadAdminData();
+// 3. Загрузка и сохранение
+function loadData() {
+    let cfg = JSON.parse(localStorage.getItem('rm_config')) || window.SITE_CONFIG;
+
+    document.getElementById('cfgOnline').value = cfg.online;
+    document.getElementById('cfgSlots').value = cfg.slots;
+    document.getElementById('cfgPing').value = cfg.ping;
+    document.getElementById('cfgName').value = cfg.serverName;
+    document.getElementById('cfgAccs').value = cfg.accounts;
+    document.getElementById('cfgCars').value = cfg.cars;
+    document.getElementById('cfgHouses').value = cfg.houses;
+    document.getElementById('cfgVer').value = cfg.version;
+
+    renderStatuses(cfg.status);
 }
 
-// 4. Работа с данными
-function loadAdminData() {
-    let cfg = JSON.parse(localStorage.getItem('rm_config')) || window.SITE_CONFIG || {};
-    
-    document.getElementById('cfgOnline').value = cfg.online || 0;
-    document.getElementById('cfgSlots').value = cfg.slots || 1000;
-    document.getElementById('cfgPing').value = cfg.ping || 0;
-    document.getElementById('cfgCity').value = cfg.serverName || "Moscow";
-    document.getElementById('cfgAccs').value = cfg.accounts || 0;
-    document.getElementById('cfgCars').value = cfg.cars || "150+";
-    document.getElementById('cfgHouses').value = cfg.houses || "200+";
-
+function renderStatuses(current) {
     const grid = document.getElementById('statusGrid');
     grid.innerHTML = "";
-    Object.keys(STATS_MAP).forEach(key => {
+    Object.keys(STATUS_LIST).forEach(key => {
+        const s = STATUS_LIST[key];
         const btn = document.createElement('button');
-        btn.className = "status-btn" + (cfg.status === key ? " active" : "");
-        btn.innerText = STATS_MAP[key];
+        btn.className = "status-btn" + (current === key ? " active" : "");
+        btn.style.color = s.color;
+        btn.innerText = s.label;
         btn.onclick = () => {
+            let cfg = JSON.parse(localStorage.getItem('rm_config')) || window.SITE_CONFIG;
             cfg.status = key;
             localStorage.setItem('rm_config', JSON.stringify(cfg));
-            loadAdminData();
-            triggerSave();
+            renderStatuses(key);
+            showHint();
         };
         grid.appendChild(btn);
     });
-
-    renderTeam();
 }
 
 function saveAll() {
     let cfg = JSON.parse(localStorage.getItem('rm_config')) || window.SITE_CONFIG;
+    
     cfg.online = document.getElementById('cfgOnline').value;
     cfg.slots = document.getElementById('cfgSlots').value;
     cfg.ping = document.getElementById('cfgPing').value;
-    cfg.serverName = document.getElementById('cfgCity').value;
+    cfg.serverName = document.getElementById('cfgName').value;
     cfg.accounts = document.getElementById('cfgAccs').value;
     cfg.cars = document.getElementById('cfgCars').value;
     cfg.houses = document.getElementById('cfgHouses').value;
+    cfg.version = document.getElementById('cfgVer').value;
 
     localStorage.setItem('rm_config', JSON.stringify(cfg));
-    triggerSave();
-}
-
-function triggerSave() {
-    const h = document.getElementById('saveHint');
-    h.style.display = 'block';
-    setTimeout(() => h.style.display = 'none', 2000);
-}
-
-// 5. Команда
-function addDev() {
-    const name = prompt("Ник разработчика:");
-    if (!name) return;
-    const pass = Math.random().toString(36).slice(-8);
-    const pin = Math.floor(1000 + Math.random() * 9000).toString();
-    
-    let team = JSON.parse(localStorage.getItem('rm_team') || "[]");
-    team.push({ user: name, pass: pass, pin: pin });
-    localStorage.setItem('rm_team', JSON.stringify(team));
-    
-    alert(`СОЗДАНО!\nЛогин: ${name}\nПароль: ${pass}\nPIN: ${pin}`);
-    renderTeam();
-}
-
-function renderTeam() {
-    const list = document.getElementById('teamList');
-    list.innerHTML = `<div class="team-item"><span>dev [Владелец]</span></div>`;
-    let team = JSON.parse(localStorage.getItem('rm_team') || "[]");
-    team.forEach((a, i) => {
-        list.innerHTML += `<div class="team-item"><span>${a.user} [Разработчик]</span> <button onclick="delDev(${i})" style="background:red; border:none; color:#fff; border-radius:4px; cursor:pointer;">X</button></div>`;
-    });
-}
-
-function delDev(i) {
-    let team = JSON.parse(localStorage.getItem('rm_team') || "[]");
-    team.splice(i, 1);
-    localStorage.setItem('rm_team', JSON.stringify(team));
-    renderTeam();
+    showHint();
 }
 
 function switchTab(e, id) {
@@ -145,4 +96,10 @@ function switchTab(e, id) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     e.currentTarget.classList.add('active');
+}
+
+function showHint() {
+    const h = document.getElementById('saveHint');
+    h.style.display = 'block';
+    setTimeout(() => h.style.display = 'none', 1500);
 }
