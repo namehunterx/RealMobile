@@ -1,10 +1,9 @@
 // ============================================
 // КОНФИГУРАЦИЯ
 // ============================================
-// Меняй эти цифры когда нужно:
-var ONLINE = 0;          // сколько сейчас онлайн
-var ACCOUNTS = 0;    // всего аккаунтов
-var SLOTS = 0;        // слотов на сервере
+var ONLINE = 0;
+var ACCOUNTS = 15200;
+var SLOTS = 1000;
 
 // ============================================
 // PRELOADER
@@ -105,13 +104,22 @@ window.addEventListener('scroll', checkReveal);
 window.addEventListener('load', checkReveal);
 
 // ============================================
-// SET ONLINE EVERYWHERE
+// SET ONLINE + FILL BAR
 // ============================================
 function setOnline() {
     var a = document.getElementById('cntOnline');
     var b = document.getElementById('srvOnline');
+    var fill = document.getElementById('srvFill');
+    var percent = document.getElementById('srvPercent');
+
     if (a) a.textContent = ONLINE;
     if (b) b.textContent = ONLINE;
+
+    if (fill) {
+        var pct = Math.min(Math.round((ONLINE / SLOTS) * 100), 100);
+        fill.style.width = pct + '%';
+        if (percent) percent.textContent = pct;
+    }
 }
 
 // ============================================
@@ -130,6 +138,11 @@ function initCounters() {
                 animateNum(document.getElementById('cntOnline'), ONLINE, 2000);
                 animateNum(document.getElementById('cntAccounts'), ACCOUNTS, 2500);
                 animateNum(document.getElementById('srvOnline'), ONLINE, 2000);
+
+                // Заполнение полоски с задержкой
+                setTimeout(function () {
+                    setOnline();
+                }, 500);
             }
         });
     }, { threshold: 0.3 });
@@ -140,9 +153,12 @@ function initCounters() {
 document.addEventListener('DOMContentLoaded', function () {
     initCounters();
 
-    // Для страниц без hero (server.html и тд)
+    // Для страниц без hero
     var srvEl = document.getElementById('srvOnline');
     if (srvEl && !document.querySelector('.hero-counters')) {
-        srvEl.textContent = ONLINE;
+        setOnline();
     }
+
+    // Заполнение полоски на всех страницах
+    setTimeout(setOnline, 800);
 });
