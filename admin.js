@@ -5,33 +5,14 @@
 // ============================================
 // 🔐 НАСТРОЙКИ ДОСТУПА (МЕНЯЙ ЗДЕСЬ)
 // ============================================
-// Логин
 var ADMIN_USER = "admin";
-
-// Пароль (обычный текст)
 var ADMIN_PASS = "RealMobile2026!";
-
-// PIN (6 цифр). По умолчанию: 247365
 var ADMIN_PIN = "247365";
 
-// Секретная комбинация клавиш для появления формы входа
-// По умолчанию: R M A D M I N (быстро)
 var SECRET_KEYS = ['r', 'm', 'a', 'd', 'm', 'i', 'n'];
-
-// Время сессии в минутах
 var SESSION_MINUTES = 30;
-
-// Макс. попыток входа
 var MAX_ATTEMPTS = 3;
-// Время блокировки в минутах
 var BLOCK_MINUTES = 5;
-
-// ============================================
-// ⚠️ ВАЖНО: По умолчанию доступы такие
-// Логин: admin
-// Пароль: RealMobile2026!
-// PIN: 247365
-// ============================================
 
 // ============================================
 // СЕКРЕТНАЯ КОМБИНАЦИЯ КЛАВИШ
@@ -40,23 +21,19 @@ var keyBuffer = [];
 var keyTimer = null;
 
 document.addEventListener('keydown', function(e) {
-    // Игнорируем если уже видна форма входа или панель
     if (document.getElementById('loginScreen').classList.contains('show')) return;
     if (document.getElementById('adminPanel').classList.contains('show')) return;
 
     var key = e.key.toLowerCase();
     keyBuffer.push(key);
 
-    // Сбрасываем буфер через 3 секунды
     clearTimeout(keyTimer);
     keyTimer = setTimeout(function() { keyBuffer = []; }, 3000);
 
-    // Ограничиваем размер буфера
     if (keyBuffer.length > SECRET_KEYS.length) {
         keyBuffer = keyBuffer.slice(-SECRET_KEYS.length);
     }
 
-    // Проверяем совпадение
     if (keyBuffer.length === SECRET_KEYS.length) {
         var match = true;
         for (var i = 0; i < SECRET_KEYS.length; i++) {
@@ -78,7 +55,7 @@ function showLogin() {
 }
 
 // ============================================
-// ПРОВЕРКА БЛОКИРОВКИ
+// БЛОКИРОВКА
 // ============================================
 function getBlockInfo() {
     var data = localStorage.getItem('rm_block');
@@ -102,6 +79,8 @@ function updateAttemptsInfo() {
     var block = getBlockInfo();
     var info = document.getElementById('attemptsInfo');
     var btn = document.getElementById('loginBtn');
+
+    if (!info || !btn) return;
 
     if (block) {
         var left = Math.ceil((block.until - Date.now()) / 1000);
@@ -142,30 +121,30 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         return;
     }
 
-    // Honeypot - если бот заполнил
-    if (this.querySelector('[name="username_check"]').value) {
-        errorEl.textContent = '❌ Ошибка валидации';
-        errorEl.classList.add('show');
-        return;
-    }
-
     var user = document.getElementById('loginUser').value.trim();
     var pass = document.getElementById('loginPass').value;
     var pin = document.getElementById('loginPin').value.trim();
+
+    // Проверяем что поля не пустые
+    if (!user || !pass || !pin) {
+        errorEl.textContent = '❌ Заполните все поля';
+        errorEl.classList.add('show');
+        return;
+    }
 
     var btn = document.getElementById('loginBtn');
     btn.disabled = true;
     btn.textContent = 'Проверка...';
 
-    // Задержка для защиты от перебора
+    // Задержка против перебора
     setTimeout(function() {
         if (user === ADMIN_USER && pass === ADMIN_PASS && pin === ADMIN_PIN) {
-            // Успешно
+            // ✅ Успех
             localStorage.removeItem('rm_attempts');
             createSession();
             openPanel();
         } else {
-            // Неудача
+            // ❌ Неудача
             var attempts = getAttempts() + 1;
             localStorage.setItem('rm_attempts', attempts);
 
@@ -178,11 +157,11 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             } else {
                 errorEl.textContent = '❌ Неверные данные. Попыток осталось: ' + (MAX_ATTEMPTS - attempts);
             }
+
             errorEl.classList.add('show');
             btn.disabled = false;
             btn.textContent = 'Войти в систему';
 
-            // Очищаем поля
             document.getElementById('loginPass').value = '';
             document.getElementById('loginPin').value = '';
             updateAttemptsInfo();
@@ -245,11 +224,12 @@ function openPanel() {
     var session = checkSession();
     if (session) {
         var d = new Date(session.loginTime);
-        document.getElementById('loginTime').value = d.toLocaleString('ru-RU');
+        var el = document.getElementById('loginTime');
+        if (el) el.value = d.toLocaleString('ru-RU');
     }
 }
 
-// Проверка при загрузке - если сессия активна, сразу открываем
+// Проверка при загрузке страницы
 window.addEventListener('load', function() {
     if (checkSession()) {
         openPanel();
@@ -278,30 +258,35 @@ function startSessionTimer() {
 }
 
 // ============================================
-// ЗАГРУЗКА ДАННЫХ В ФОРМЫ
+// ЗАГРУЗКА ДАННЫХ
 // ============================================
 function loadAdminData() {
     var cfg = window.SITE_CONFIG;
 
-    document.getElementById('cfgOnline').value = cfg.online;
-    document.getElementById('cfgSlots').value = cfg.slots;
-    document.getElementById('cfgPing').value = cfg.ping;
-    document.getElementById('cfgServerName').value = cfg.serverName;
-    document.getElementById('cfgAccounts').value = cfg.accounts;
-    document.getElementById('cfgCars').value = cfg.cars;
-    document.getElementById('cfgHouses').value = cfg.houses;
-    document.getElementById('cfgJobs').value = cfg.jobs;
-    document.getElementById('cfgSupport').value = cfg.support;
-    document.getElementById('cfgVersion').value = cfg.version;
-    document.getElementById('cfgApkSize').value = cfg.apkSize;
+    // Безопасная установка значений
+    function setVal(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.value = val;
+    }
+
+    setVal('cfgOnline', cfg.online);
+    setVal('cfgSlots', cfg.slots);
+    setVal('cfgPing', cfg.ping);
+    setVal('cfgServerName', cfg.serverName);
+    setVal('cfgAccounts', cfg.accounts);
+    setVal('cfgCars', cfg.cars);
+    setVal('cfgHouses', cfg.houses);
+    setVal('cfgJobs', cfg.jobs);
+    setVal('cfgSupport', cfg.support);
+    setVal('cfgVersion', cfg.version);
+    setVal('cfgApkSize', cfg.apkSize);
 
     renderStatusButtons();
     updateQuickStats();
     updatePreview();
 
-    // Auto-save при изменении
-    var inputs = document.querySelectorAll('.form-input');
-    inputs.forEach(function(inp) {
+    // Авто-сохранение при изменении
+    document.querySelectorAll('.form-input').forEach(function(inp) {
         inp.addEventListener('input', function() {
             saveData();
         });
@@ -314,6 +299,7 @@ function loadAdminData() {
 function renderStatusButtons() {
     var grid = document.getElementById('statusGrid');
     var cfg = window.SITE_CONFIG;
+    if (!grid) return;
     grid.innerHTML = '';
 
     Object.keys(window.SERVER_STATUSES).forEach(function(key) {
@@ -346,8 +332,11 @@ function updatePreview() {
     preview.style.borderColor = st.borderColor;
     preview.style.border = '1px solid ' + st.borderColor;
     preview.style.color = st.color;
-    preview.querySelector('.dot').style.background = st.color;
-    preview.querySelector('.text').textContent = st.label;
+
+    var dot = preview.querySelector('.dot');
+    var text = preview.querySelector('.text');
+    if (dot) dot.style.background = st.color;
+    if (text) text.textContent = st.label;
 }
 
 // ============================================
@@ -356,17 +345,23 @@ function updatePreview() {
 function saveData() {
     var cfg = window.SITE_CONFIG;
 
-    cfg.online = parseInt(document.getElementById('cfgOnline').value) || 0;
-    cfg.slots = parseInt(document.getElementById('cfgSlots').value) || 1000;
-    cfg.ping = parseInt(document.getElementById('cfgPing').value) || 0;
-    cfg.serverName = document.getElementById('cfgServerName').value || 'Moscow';
-    cfg.accounts = parseInt(document.getElementById('cfgAccounts').value) || 0;
-    cfg.cars = document.getElementById('cfgCars').value || '0';
-    cfg.houses = document.getElementById('cfgHouses').value || '0';
-    cfg.jobs = document.getElementById('cfgJobs').value || '0';
-    cfg.support = document.getElementById('cfgSupport').value || '24/7';
-    cfg.version = document.getElementById('cfgVersion').value || '1.0.0';
-    cfg.apkSize = document.getElementById('cfgApkSize').value || '~680 MB';
+    function getVal(id, fallback, isNum) {
+        var el = document.getElementById(id);
+        if (!el) return fallback;
+        return isNum ? (parseInt(el.value) || fallback) : (el.value || fallback);
+    }
+
+    cfg.online     = getVal('cfgOnline', 0, true);
+    cfg.slots      = getVal('cfgSlots', 1000, true);
+    cfg.ping       = getVal('cfgPing', 0, true);
+    cfg.serverName = getVal('cfgServerName', 'Moscow', false);
+    cfg.accounts   = getVal('cfgAccounts', 0, true);
+    cfg.cars       = getVal('cfgCars', '0', false);
+    cfg.houses     = getVal('cfgHouses', '0', false);
+    cfg.jobs       = getVal('cfgJobs', '0', false);
+    cfg.support    = getVal('cfgSupport', '24/7', false);
+    cfg.version    = getVal('cfgVersion', '1.0.0', false);
+    cfg.apkSize    = getVal('cfgApkSize', '~680 MB', false);
 
     localStorage.setItem('rm_config', JSON.stringify(cfg));
     updateQuickStats();
@@ -375,14 +370,20 @@ function saveData() {
 
 function updateQuickStats() {
     var cfg = window.SITE_CONFIG;
-    document.getElementById('qsOnline').textContent = cfg.online;
-    document.getElementById('qsSlots').textContent = cfg.slots;
     var st = window.SERVER_STATUSES[cfg.status];
-    document.getElementById('qsStatus').textContent = st ? st.label : '-';
+
+    var qsOnline = document.getElementById('qsOnline');
+    var qsSlots = document.getElementById('qsSlots');
+    var qsStatus = document.getElementById('qsStatus');
+
+    if (qsOnline) qsOnline.textContent = cfg.online;
+    if (qsSlots) qsSlots.textContent = cfg.slots;
+    if (qsStatus) qsStatus.textContent = st ? st.label : '-';
 }
 
 function showSaved() {
     var el = document.getElementById('saveStatus');
+    if (!el) return;
     el.classList.add('show');
     clearTimeout(window._saveTimer);
     window._saveTimer = setTimeout(function() {
@@ -411,12 +412,14 @@ function quickAction(act) {
     if (act === 'reset_online') {
         if (confirm('Сбросить онлайн до 0?')) {
             cfg.online = 0;
-            document.getElementById('cfgOnline').value = 0;
+            var el = document.getElementById('cfgOnline');
+            if (el) el.value = 0;
             saveData();
         }
     } else if (act === 'max_online') {
         cfg.online = cfg.slots;
-        document.getElementById('cfgOnline').value = cfg.slots;
+        var el = document.getElementById('cfgOnline');
+        if (el) el.value = cfg.slots;
         saveData();
     } else if (act === 'reset_all') {
         if (confirm('⚠️ Сбросить ВСЕ настройки сайта?')) {
@@ -434,7 +437,7 @@ function fetchIP() {
     var el = document.getElementById('userIP');
     if (!el) return;
     fetch('https://api.ipify.org?format=json')
-        .then(r => r.json())
-        .then(d => { el.value = d.ip; })
-        .catch(() => { el.value = 'Недоступно'; });
+        .then(function(r) { return r.json(); })
+        .then(function(d) { el.value = d.ip; })
+        .catch(function() { el.value = 'Недоступно'; });
 }
