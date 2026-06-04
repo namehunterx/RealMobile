@@ -42,7 +42,7 @@
 </div>
 
 <div class="page-hero">
-    <h1>Сервер <span style="color:var(--primary)">Moscow</span></h1>
+    <h1>Сервер <span style="color:var(--primary)" data-server-name>Moscow</span></h1>
     <p>Основной игровой сервер Real Mobile</p>
 </div>
 
@@ -50,8 +50,11 @@
     <div class="container">
         <div class="server-card reveal">
             <div class="server-card-glow"></div>
-            <div class="server-badge"><span class="dot"></span> Online</div>
-            <h3 class="server-name">Real Mobile - <span class="red">Moscow</span></h3>
+            
+            <!-- Статус (Online/Тех.Работы и т.д.) управляется из админки -->
+            <div class="server-badge"><span class="dot"></span> Загрузка...</div>
+            
+            <h3 class="server-name">Real Mobile - <span class="red" data-server-name>Moscow</span></h3>
             <p class="server-sub">IP: play.realmobile.ru | Port: 7777</p>
 
             <div class="server-stats">
@@ -60,13 +63,23 @@
                     <div class="server-stat-label">Онлайн</div>
                 </div>
                 <div class="server-stat">
-                    <div class="server-stat-val">1000</div>
+                    <!-- Атрибут data-slots связывает поле с админкой -->
+                    <div class="server-stat-val" data-slots>1000</div>
                     <div class="server-stat-label">Слотов</div>
                 </div>
                 <div class="server-stat">
-                    <div class="server-stat-val">0ms</div>
+                    <!-- Атрибут data-ping связывает поле с админкой -->
+                    <div class="server-stat-val" data-ping>0ms</div>
                     <div class="server-stat-label">Пинг</div>
                 </div>
+            </div>
+
+            <!-- Полоска заполненности сервера -->
+            <div class="server-fill-bar">
+                <div class="server-fill-track">
+                    <div class="server-fill-progress" id="srvFill"></div>
+                </div>
+                <div class="server-fill-text"><span id="srvPercent">0</span>% заполнен</div>
             </div>
 
             <a href="download.html" class="btn btn-red">
@@ -83,21 +96,25 @@
 
             <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); max-width:700px; margin:0 auto;">
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">🛡️</div>
                     <h3>Античит</h3>
                     <p>Мощная система защиты от читеров и нарушителей для честной игры</p>
                 </div>
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">⚡</div>
                     <h3>Стабильность</h3>
                     <p>Мощное серверное оборудование обеспечивает стабильный TPS 24/7</p>
                 </div>
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">💾</div>
                     <h3>Сохранения</h3>
                     <p>Автоматическое сохранение прогресса каждые 5 минут</p>
                 </div>
                 <div class="feature-card reveal">
+                    <div class="feature-card-line"></div>
                     <div class="feature-icon">🌐</div>
                     <h3>Локация</h3>
                     <p>Сервер расположен в Москве для минимального пинга по СНГ</p>
@@ -109,6 +126,30 @@
 
 <footer class="footer">
     <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo"><span class="w">REAL</span><span class="r">MOBILE</span></div>
+                <p>Real Mobile - мобильный RP проект. Все права на игровые материалы принадлежат Real Mobile Games Studio. Проект создан исключительно в развлекательных целях.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Главная</a>
+                <a href="server.html">Сервер</a>
+                <a href="features.html">Возможности</a>
+                <a href="download.html">Скачать</a>
+            </div>
+            <div class="footer-col">
+                <h4>Документы</h4>
+                <a href="rules.html">Правила проекта</a>
+                <a href="privacy.html">Конфиденциальность</a>
+                <a href="eula.html">Лицензионное соглашение</a>
+            </div>
+            <div class="footer-col">
+                <h4>Соц. сети</h4>
+                <a href="https://t.me/Real_Mobile_Official" target="_blank">Telegram</a>
+                <a href="https://www.tiktok.com/@realmobila" target="_blank">TikTok</a>
+            </div>
+        </div>
         <div class="footer-bottom">
             <p class="footer-copy">&copy; 2026-2027 Real Mobile Games Studio. Все права защищены.</p>
             <div class="footer-links">
@@ -124,6 +165,8 @@
     <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
 </div>
 
+<!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ (ОБЯЗАТЕЛЬНО ОБА) -->
+<script src="config.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
