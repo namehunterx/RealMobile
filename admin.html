@@ -3,786 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Система</title>
+    <title>Система Управления</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ============================================
-           АДМИН-ПАНЕЛЬ СТИЛИ
-           ============================================ */
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Заглушка 404 (показывается всегда сначала) */
-        .fake-404 {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .fake-404 h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 8rem;
-            font-weight: 900;
-            color: var(--primary);
-            line-height: 1;
-            margin-bottom: 20px;
-        }
-
-        .fake-404 p {
-            color: var(--text-gray);
-            font-size: 1rem;
-            margin-bottom: 30px;
-        }
-
-        .fake-404 a {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-
-        .fake-404 .hint {
-            margin-top: 60px;
-            font-size: 0.7rem;
-            color: #1a1a1a;
-            letter-spacing: 3px;
-        }
-
-        /* Форма входа (скрыта по умолчанию) */
-        .login-screen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-screen.show {
-            display: flex;
-        }
-
-        .login-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-red);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-header .lock-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            background: rgba(227, 28, 37, 0.1);
-            border: 1px solid rgba(227, 28, 37, 0.2);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-        }
-
-        .login-header h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .login-header p {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.9rem;
-            font-family: inherit;
-            transition: all var(--transition);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(227, 28, 37, 0.03);
-        }
-
-        /* Honeypot - скрытое поле для ботов */
-        .honeypot {
-            position: absolute;
-            left: -9999px;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--gradient-red);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all var(--transition);
-            margin-top: 10px;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-red);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-error {
-            background: rgba(227, 28, 37, 0.1);
-            border: 1px solid rgba(227, 28, 37, 0.2);
-            color: var(--primary);
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .login-error.show {
-            display: block;
-        }
-
-        .attempts-info {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.7rem;
-            color: var(--text-gray);
-        }
-
-        /* ============================================
-           ПАНЕЛЬ АДМИНА (скрыта)
-           ============================================ */
-        .admin-panel {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
-            z-index: 200;
-            overflow-y: auto;
-            padding: 30px 20px 60px;
-        }
-
-        .admin-panel.show {
-            display: block;
-        }
-
-        .admin-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .admin-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .admin-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-title .badge {
-            background: var(--gradient-red);
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 3px 8px;
-            border-radius: 6px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .admin-header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .session-timer {
-            font-size: 0.75rem;
-            color: var(--text-gray);
-            font-family: monospace;
-        }
-
-        .session-timer span {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .logout-btn {
-            padding: 8px 18px;
-            background: transparent;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .logout-btn:hover {
-            border-color: var(--primary);
-            background: rgba(227, 28, 37, 0.05);
-            color: var(--primary);
-        }
-
-        /* Tabs */
-        .admin-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-        }
-
-        .admin-tab {
-            padding: 12px 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all var(--transition);
-            white-space: nowrap;
-            font-family: inherit;
-        }
-
-        .admin-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .admin-tab:hover {
-            color: #fff;
-        }
-
-        .admin-tab.active:hover {
-            color: var(--primary);
-        }
-
-        /* Tab content */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Grid */
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .admin-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 25px;
-        }
-
-        .admin-card h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-card h3 .icon {
-            font-size: 1.2rem;
-        }
-
-        /* Status buttons */
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .status-btn {
-            padding: 14px 12px;
-            background: var(--bg-darker);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition);
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .status-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .status-btn.active {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .status-btn .dot-mini {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        /* Save indicator */
-        .save-status {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 14px 24px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-            z-index: 999;
-            pointer-events: none;
-            box-shadow: 0 10px 30px rgba(227, 28, 37, 0.3);
-        }
-
-        .save-status.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Preview card */
-        .preview-card {
-            background: var(--bg-darker);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .preview-card .preview-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 5px 14px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .preview-card .preview-status .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Quick info */
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .quick-stat {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-        }
-
-        .quick-stat-val {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .quick-stat-lbl {
-            font-size: 0.7rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Action buttons */
-        .actions-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px;
-            background: var(--bg-darker);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition);
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .action-btn:hover {
-            border-color: var(--primary);
-            background: rgba(227, 28, 37, 0.05);
-        }
-
-        .action-btn.danger:hover {
-            border-color: var(--primary);
-            background: rgba(227, 28, 37, 0.1);
-            color: var(--primary);
-        }
-
-        @media (max-width: 768px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-            .quick-stats {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .status-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
+        .fake-404 { text-align: center; }
+        .fake-404 h1 { font-size: 8rem; color: var(--primary); font-family: 'Montserrat'; font-weight: 900; }
+        
+        /* Логин */
+        .login-screen { display: none; position: fixed; inset: 0; background: #080808; z-index: 1000; align-items: center; justify-content: center; }
+        .login-box { background: #0f0f0f; padding: 40px; border-radius: 24px; width: 100%; max-width: 400px; border: 1px solid #1a1a1a; }
+        .login-error { background: rgba(227, 28, 37, 0.1); color: var(--primary); padding: 12px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 20px; display: none; text-align: center; border: 1px solid rgba(227, 28, 37, 0.2); }
+        
+        /* Панель */
+        .admin-panel { display: none; position: fixed; inset: 0; background: #080808; z-index: 2000; overflow-y: auto; padding: 30px; }
+        .admin-container { max-width: 1000px; margin: 0 auto; }
+        
+        /* Хедер и Виджеты */
+        .quick-view { display: flex; gap: 15px; margin-bottom: 30px; }
+        .q-card { background: #0f0f0f; padding: 15px 25px; border-radius: 16px; border: 1px solid #1a1a1a; flex: 1; text-align: center; }
+        .q-card span { display: block; font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; margin-bottom: 5px; font-weight: 800; }
+        .q-card b { font-size: 1.4rem; font-family: 'Montserrat'; }
+
+        /* Вкладки */
+        .admin-tabs { display: flex; gap: 5px; background: #0f0f0f; padding: 5px; border-radius: 12px; border: 1px solid #1a1a1a; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; color: #555; cursor: pointer; font-weight: 700; font-size: 0.8rem; border-radius: 8px; transition: 0.3s; }
+        .tab-btn.active { background: #1a1a1a; color: var(--primary); }
+
+        .tab-content { display: none; }
+        .admin-card { background: #0f0f0f; padding: 25px; border-radius: 20px; border: 1px solid #1a1a1a; margin-bottom: 20px; }
+        .admin-card h3 { font-size: 0.9rem; margin-bottom: 20px; color: var(--primary); font-family: 'Montserrat'; text-transform: uppercase; letter-spacing: 1px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.7rem; color: #555; text-transform: uppercase; margin-bottom: 8px; font-weight: 800; }
+        .form-input { width: 100%; padding: 14px; background: #050505; border: 1px solid #1a1a1a; border-radius: 10px; color: #fff; font-family: inherit; transition: 0.3s; }
+        .form-input:focus { border-color: var(--primary); outline: none; background: #080808; }
+
+        /* Статус кнопки */
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+        .status-btn { padding: 15px; border-radius: 12px; border: 1px solid #1a1a1a; background: #0c0c0c; color: #fff; cursor: pointer; transition: 0.3s; font-weight: 800; font-size: 0.7rem; }
+        .status-btn.active { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+
+        /* Команда */
+        .team-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #0c0c0c; border-radius: 14px; margin-bottom: 10px; border: 1px solid #1a1a1a; }
+        .role-owner { color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .role-dev { color: var(--primary); }
+
+        .save-status { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 30px; background: var(--primary); color: #fff; border-radius: 50px; font-weight: 800; font-size: 0.8rem; transition: 0.5s; z-index: 5000; box-shadow: 0 10px 30px rgba(227, 28, 37, 0.4); }
+        .save-status.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="bg-noise"></div>
-
-<!-- Фейковая 404 страница (видна всем) -->
 <div class="fake-404" id="fake404">
     <h1>404</h1>
-    <p>Страница не найдена. <a href="index.html">Вернуться на главную</a></p>
-    <div class="hint">. . .</div>
+    <p>Указанный адрес не существует. <a href="index.html" style="color:var(--primary)">Вернуться</a></p>
 </div>
 
-<!-- Форма входа (появляется после ввода секретного кода) -->
 <div class="login-screen" id="loginScreen">
     <div class="login-box">
-        <div class="login-header">
-            <div class="lock-icon">🔐</div>
-            <h2>Авторизация</h2>
-            <p>Введите данные для входа в систему</p>
-        </div>
-
+        <h2 style="text-align:center; margin-bottom:30px; font-family:'Montserrat'; letter-spacing:-1px;">CORE <span style="color:var(--primary)">ACCESS</span></h2>
         <div class="login-error" id="loginError"></div>
-
-        <form id="loginForm" autocomplete="off">
-            <!-- Honeypot для ботов -->
-            <input type="text" name="username_check" class="honeypot" tabindex="-1" autocomplete="off">
-
+        <form id="loginForm">
             <div class="form-group">
-                <label>Логин</label>
-                <input type="text" class="form-input" id="loginUser" autocomplete="off" required>
+                <label>System Login</label>
+                <input type="text" class="form-input" id="loginUser" required placeholder="dev_id">
             </div>
-
             <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" class="form-input" id="loginPass" autocomplete="off" required>
+                <label>Security Password</label>
+                <input type="password" class="form-input" id="loginPass" required placeholder="********">
             </div>
-
             <div class="form-group">
-                <label>Секретный PIN</label>
-                <input type="password" class="form-input" id="loginPin" autocomplete="off" required maxlength="6">
+                <label>Access PIN</label>
+                <input type="password" class="form-input" id="loginPin" maxlength="4" required placeholder="0000">
             </div>
-
-            <button type="submit" class="login-btn" id="loginBtn">Войти в систему</button>
-
-            <div class="attempts-info" id="attemptsInfo"></div>
+            <button type="submit" class="btn btn-red" style="width:100%; padding:16px;">AUTH_EXECUTE</button>
         </form>
     </div>
 </div>
 
-<!-- Админ-панель (после успешного входа) -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-container">
-
-        <!-- Header -->
-        <div class="admin-header">
-            <div class="admin-title">
-                <span>⚙️</span> Real Mobile <span class="badge">Admin</span>
-            </div>
-            <div class="admin-header-right">
-                <div class="session-timer">Сессия: <span id="sessionTime">30:00</span></div>
-                <button class="logout-btn" onclick="logout()">Выйти</button>
-            </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <h1 style="font-family:'Montserrat'; font-size:1.2rem; letter-spacing:1px;">REAL MOBILE // <span style="color:var(--primary)">ADMIN_PANEL</span></h1>
+            <button class="btn btn-outline" style="font-size:0.7rem;" onclick="logout()">LOGOUT</button>
         </div>
 
-        <!-- Quick stats -->
-        <div class="quick-stats">
-            <div class="quick-stat">
-                <div class="quick-stat-val" id="qsOnline">0</div>
-                <div class="quick-stat-lbl">Онлайн</div>
-            </div>
-            <div class="quick-stat">
-                <div class="quick-stat-val" id="qsSlots">0</div>
-                <div class="quick-stat-lbl">Слотов</div>
-            </div>
-            <div class="quick-stat">
-                <div class="quick-stat-val" id="qsStatus">-</div>
-                <div class="quick-stat-lbl">Статус</div>
-            </div>
+        <div class="quick-view">
+            <div class="q-card"><span>LIVE_ONLINE</span><b id="qsOnline">0</b></div>
+            <div class="q-card"><span>SRV_STATUS</span><b id="qsStatus">...</b></div>
         </div>
 
-        <!-- Tabs -->
         <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="server" onclick="switchTab('server')">🖥️ Сервер</button>
-            <button class="admin-tab" data-tab="stats" onclick="switchTab('stats')">📊 Статистика</button>
-            <button class="admin-tab" data-tab="settings" onclick="switchTab('settings')">⚙️ Настройки</button>
-            <button class="admin-tab" data-tab="security" onclick="switchTab('security')">🔐 Безопасность</button>
+            <button class="tab-btn active" onclick="openTab(event, 'tab-server')">СЕРВЕР</button>
+            <button class="tab-btn" onclick="openTab(event, 'tab-stats')">СТАТИСТИКА</button>
+            <button class="tab-btn" onclick="openTab(event, 'tab-team')">КОМАНДА</button>
         </div>
 
-        <!-- TAB: Сервер -->
-        <div class="tab-content active" id="tab-server">
-            <div class="admin-grid">
-
-                <!-- Статус сервера -->
-                <div class="admin-card">
-                    <h3><span class="icon">🟢</span> Статус сервера</h3>
-                    <div class="status-grid" id="statusGrid"></div>
-
-                    <div class="preview-card">
-                        <div class="preview-status" id="statusPreview">
-                            <span class="dot"></span> <span class="text">Online</span>
-                        </div>
+        <div id="tab-server" class="tab-content" style="display:block;">
+            <div class="admin-card">
+                <h3>Режим работы</h3>
+                <div class="status-grid" id="statusGrid"></div>
+            </div>
+            <div class="admin-card">
+                <h3>Контроль населения</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                    <div class="form-group">
+                        <label>Игроков в сети</label>
+                        <input type="number" class="form-input" id="cfgOnline">
+                    </div>
+                    <div class="form-group">
+                        <label>Максимум слотов</label>
+                        <input type="number" class="form-input" id="cfgSlots">
                     </div>
                 </div>
-
-                <!-- Данные сервера -->
-                <div class="admin-card">
-                    <h3><span class="icon">📡</span> Данные сервера</h3>
-
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                     <div class="form-group">
-                        <label>Игроков онлайн</label>
-                        <input type="number" class="form-input" id="cfgOnline" min="0">
+                        <label>Пинг (ms)</label>
+                        <input type="number" class="form-input" id="cfgPing">
                     </div>
-
                     <div class="form-group">
-                        <label>Всего слотов</label>
-                        <input type="number" class="form-input" id="cfgSlots" min="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Пинг (мс)</label>
-                        <input type="number" class="form-input" id="cfgPing" min="0">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Название сервера</label>
+                        <label>Название города</label>
                         <input type="text" class="form-input" id="cfgServerName">
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- TAB: Статистика -->
-        <div class="tab-content" id="tab-stats">
-            <div class="admin-grid">
-                <div class="admin-card">
-                    <h3><span class="icon">📈</span> Общая статистика</h3>
-
-                    <div class="form-group">
-                        <label>Всего аккаунтов</label>
-                        <input type="number" class="form-input" id="cfgAccounts" min="0">
-                    </div>
-                </div>
-
-                <div class="admin-card">
-                    <h3><span class="icon">🎮</span> Игровая статистика</h3>
-
-                    <div class="form-group">
-                        <label>Транспорта</label>
-                        <input type="text" class="form-input" id="cfgCars">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Домов</label>
-                        <input type="text" class="form-input" id="cfgHouses">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Работ</label>
-                        <input type="text" class="form-input" id="cfgJobs">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Поддержка</label>
-                        <input type="text" class="form-input" id="cfgSupport">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: Настройки -->
-        <div class="tab-content" id="tab-settings">
-            <div class="admin-grid">
-                <div class="admin-card">
-                    <h3><span class="icon">📦</span> Версия APK</h3>
-
-                    <div class="form-group">
-                        <label>Версия игры</label>
-                        <input type="text" class="form-input" id="cfgVersion">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Размер APK</label>
-                        <input type="text" class="form-input" id="cfgApkSize">
-                    </div>
-                </div>
-
-                <div class="admin-card">
-                    <h3><span class="icon">⚡</span> Быстрые действия</h3>
-                    <p style="font-size:0.82rem; color:var(--text-gray); margin-bottom:15px;">Управление сайтом одной кнопкой</p>
-
-                    <div class="actions-row">
-                        <button class="action-btn" onclick="quickAction('reset_online')">🔄 Сбросить онлайн</button>
-                        <button class="action-btn" onclick="quickAction('max_online')">⚡ Макс. онлайн</button>
-                    </div>
-
-                    <div class="actions-row">
-                        <button class="action-btn danger" onclick="quickAction('reset_all')">⚠️ Сброс всех настроек</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: Безопасность -->
-        <div class="tab-content" id="tab-security">
+        <div id="tab-stats" class="tab-content">
             <div class="admin-card">
-                <h3><span class="icon">🔐</span> Безопасность</h3>
-
-                <div style="background:rgba(227,28,37,0.05); border:1px solid rgba(227,28,37,0.15); border-radius:10px; padding:18px; margin-bottom:20px;">
-                    <p style="font-size:0.85rem; color:#fff; margin-bottom:8px; font-weight:600;">⚠️ Внимание</p>
-                    <p style="font-size:0.8rem; color:var(--text-light); line-height:1.7;">Логин и пароль зашиты в файле <code style="color:var(--primary); background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">admin.js</code>. Для смены доступа отредактируй этот файл напрямую.</p>
-                </div>
-
-                <div class="form-group">
-                    <label>Текущий пользователь</label>
-                    <input type="text" class="form-input" value="admin" disabled>
-                </div>
-
-                <div class="form-group">
-                    <label>IP-адрес сессии</label>
-                    <input type="text" class="form-input" id="userIP" value="Загрузка..." disabled>
-                </div>
-
-                <div class="form-group">
-                    <label>Время входа</label>
-                    <input type="text" class="form-input" id="loginTime" disabled>
-                </div>
-
-                <div class="actions-row">
-                    <button class="action-btn danger" onclick="clearAllSessions()">🗑️ Очистить все сессии</button>
-                </div>
+                <h3>Глобальные показатели</h3>
+                <div class="form-group"><label>Всего аккаунтов</label><input type="text" class="form-input" id="cfgAccounts"></div>
+                <div class="form-group"><label>Всего машин</label><input type="text" class="form-input" id="cfgCars"></div>
+                <div class="form-group"><label>Всего домов</label><input type="text" class="form-input" id="cfgHouses"></div>
+                <div class="form-group"><label>Всего работ</label><input type="text" class="form-input" id="cfgJobs"></div>
+                <div class="form-group"><label>Версия клиента</label><input type="text" class="form-input" id="cfgVersion"></div>
             </div>
+        </div>
+
+        <div id="tab-team" class="tab-content">
+            <div class="admin-card">
+                <h3>Допуск персонала</h3>
+                <button class="btn btn-red" onclick="createDev()">➕ ВЫДАТЬ НОВЫЙ ДОСТУП</button>
+            </div>
+            <div id="adminList"></div>
         </div>
 
     </div>
 </div>
 
-<!-- Save indicator -->
-<div class="save-status" id="saveStatus">✓ Сохранено</div>
+<div id="saveStatus" class="save-status">CORE_SYNC_SUCCESS</div>
 
 <script src="config.js"></script>
 <script src="admin.js"></script>
