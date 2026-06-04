@@ -6,118 +6,118 @@
     <title>Система Управления</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #050505; }
+        .fake-404 { text-align: center; }
+        .fake-404 h1 { font-size: 8rem; color: var(--primary); font-family: 'Montserrat'; font-weight: 900; }
         
-        /* Состояние 404 */
-        .fake-404 { text-align: center; display: block; }
-        .fake-404 h1 { font-size: 8rem; color: var(--primary); font-family: 'Montserrat'; font-weight: 900; margin: 0; }
+        .login-screen { display: none; position: fixed; inset: 0; background: #080808; z-index: 100; align-items: center; justify-content: center; }
+        .login-box { background: #0f0f0f; padding: 40px; border-radius: 20px; width: 100%; max-width: 350px; border: 1px solid #1a1a1a; }
         
-        /* Экран входа */
-        #loginScreen { display: none; position: fixed; inset: 0; background: #080808; z-index: 9999; align-items: center; justify-content: center; }
-        .login-box { background: #0f0f0f; padding: 40px; border-radius: 24px; width: 320px; border: 1px solid #1a1a1a; text-align: center; }
+        .admin-panel { display: none; position: fixed; inset: 0; background: #050505; z-index: 200; overflow-y: auto; padding: 30px; }
+        .admin-container { max-width: 1000px; margin: 0 auto; }
         
-        /* Панель управления */
-        #adminPanel { display: none; position: fixed; inset: 0; background: #050505; z-index: 10000; overflow-y: auto; padding: 30px; }
-        .admin-container { max-width: 900px; margin: 0 auto; }
-        
-        /* Стили формы */
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-size: 0.7rem; color: #555; text-transform: uppercase; margin-bottom: 5px; font-weight: 800; }
-        .form-input { width: 100%; padding: 12px; background: #000; border: 1px solid #1a1a1a; border-radius: 8px; color: #fff; box-sizing: border-box; }
-        
-        /* Табы и кнопки */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #1a1a1a; }
-        .tab-btn { padding: 10px 20px; background: none; border: none; color: #555; cursor: pointer; font-weight: 700; }
-        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-        .tab-content { display: none; }
+        .tab-btn { padding: 12px 25px; background: none; border: none; color: #555; cursor: pointer; font-weight: 700; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-content { display: none; margin-top: 25px; }
         .tab-content.active { display: block; }
-        
-        .admin-card { background: #0f0f0f; padding: 20px; border-radius: 15px; border: 1px solid #1a1a1a; margin-bottom: 15px; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .status-btn { padding: 12px; border-radius: 10px; border: 1px solid #1a1a1a; background: #0c0c0c; color: #fff; cursor: pointer; font-weight: 800; font-size: 0.7rem; }
-        .status-btn.active { background: var(--primary); border-color: var(--primary); }
 
-        .team-item { display: flex; justify-content: space-between; padding: 10px; background: #000; border-radius: 8px; margin-bottom: 5px; font-size: 0.8rem; }
-        .save-status { position: fixed; bottom: 20px; right: 20px; background: var(--primary); padding: 10px 20px; border-radius: 50px; display: none; }
+        .admin-card { background: #0f0f0f; padding: 25px; border-radius: 15px; border: 1px solid #1a1a1a; margin-bottom: 20px; }
+        .admin-card h3 { font-size: 1rem; margin-bottom: 20px; color: var(--primary); font-family: 'Montserrat'; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.7rem; color: #555; text-transform: uppercase; margin-bottom: 5px; font-weight: 800; }
+        .form-input { width: 100%; padding: 12px; background: #000; border: 1px solid #1a1a1a; border-radius: 8px; color: #fff; font-family: inherit; }
+
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+        .status-btn { padding: 15px; border-radius: 10px; border: 1px solid #1a1a1a; background: #0c0c0c; color: #fff; cursor: pointer; transition: 0.3s; font-weight: 800; font-size: 0.75rem; }
+        .status-btn.active { transform: scale(1.05); box-shadow: 0 0 15px currentColor; }
+
+        .save-status { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: #fff; padding: 10px 25px; border-radius: 50px; font-weight: 800; display: none; }
     </style>
 </head>
 <body>
 
-    <div class="fake-404" id="fake404">
-        <h1>404</h1>
-        <p>Страница не найдена. <a href="index.html" style="color:var(--primary)">Вернуться</a></p>
-    </div>
+<!-- Скрытая 404 -->
+<div class="fake-404" id="fake404">
+    <h1>404</h1>
+    <p>Страница не найдена. <a href="index.html">Вернуться</a></p>
+</div>
 
-    <div id="loginScreen">
-        <div class="login-box">
-            <h2 style="font-family:Montserrat; margin-bottom:20px;">CORE ACCESS</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Login</label>
-                    <input type="text" class="form-input" id="loginUser" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-input" id="loginPass" required>
-                </div>
-                <div class="form-group">
-                    <label>PIN</label>
-                    <input type="password" class="form-input" id="loginPin" maxlength="4" required>
-                </div>
-                <button type="submit" class="btn btn-red" style="width:100%; padding:12px;">ENTER</button>
-            </form>
+<!-- Окно входа -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <h2 style="text-align:center; margin-bottom:25px; font-family:Montserrat;">CORE ACCESS</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Login</label>
+                <input type="text" class="form-input" id="loginUser" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-input" id="loginPass" required>
+            </div>
+            <button type="submit" class="btn btn-red" style="width:100%; margin-top:10px;">ВХОД</button>
+        </form>
+    </div>
+</div>
+
+<!-- Панель -->
+<div class="admin-panel" id="adminPanel">
+    <div class="admin-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 style="font-family:Montserrat;">ADMIN <span style="color:var(--primary)">PANEL</span></h2>
+            <button onclick="location.reload()" class="btn btn-outline" style="padding: 5px 15px; font-size: 0.7rem;">ВЫХОД</button>
         </div>
-    </div>
 
-    <div id="adminPanel">
-        <div class="admin-container">
-            <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
-                <h2 style="font-family:Montserrat; margin:0;">ADMIN <span style="color:var(--primary)">PANEL</span></h2>
-                <button onclick="location.reload()" style="background:none; border:1px solid #333; color:#fff; cursor:pointer; border-radius:5px;">LOGOUT</button>
+        <div style="border-bottom: 1px solid #1a1a1a; display: flex; gap: 10px;">
+            <button class="tab-btn active" onclick="switchTab(event, 'server')">СЕРВЕР</button>
+            <button class="tab-btn" onclick="switchTab(event, 'stats')">СТАТИСТИКА</button>
+        </div>
+
+        <div id="server" class="tab-content active">
+            <div class="admin-card">
+                <h3>Режим работы</h3>
+                <div class="status-grid" id="statusGrid"></div>
             </div>
 
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'tab-server')">СЕРВЕР</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tab-stats')">СТАТИСТИКА</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tab-team')">КОМАНДА</button>
-            </div>
-
-            <div id="tab-server" class="tab-content active">
-                <div class="admin-card">
-                    <h3>Режим сервера</h3>
-                    <div class="status-grid" id="statusGrid"></div>
-                </div>
-                <div class="admin-card">
-                    <h3>Данные</h3>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                        <div class="form-group"><label>Онлайн</label><input type="number" id="cfgOnline" class="form-input" oninput="saveAll()"></div>
-                        <div class="form-group"><label>Слоты</label><input type="number" id="cfgSlots" class="form-input" oninput="saveAll()"></div>
-                        <div class="form-group"><label>Пинг</label><input type="number" id="cfgPing" class="form-input" oninput="saveAll()"></div>
-                        <div class="form-group"><label>Город</label><input type="text" id="cfgCity" class="form-input" oninput="saveAll()"></div>
+            <div class="admin-card">
+                <h3>Основные данные</h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label>Онлайн</label>
+                        <input type="number" id="cfgOnline" class="form-input" oninput="saveAll()">
+                    </div>
+                    <div class="form-group">
+                        <label>Слоты</label>
+                        <input type="number" id="cfgSlots" class="form-input" oninput="saveAll()">
+                    </div>
+                    <div class="form-group">
+                        <label>Пинг</label>
+                        <input type="number" id="cfgPing" class="form-input" oninput="saveAll()">
+                    </div>
+                    <div class="form-group">
+                        <label>Город</label>
+                        <input type="text" id="cfgName" class="form-input" oninput="saveAll()">
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="tab-stats" class="tab-content">
-                <div class="admin-card">
-                    <div class="form-group"><label>Аккаунтов</label><input type="text" id="cfgAccs" class="form-input" oninput="saveAll()"></div>
-                    <div class="form-group"><label>Машин</label><input type="text" id="cfgCars" class="form-input" oninput="saveAll()"></div>
-                    <div class="form-group"><label>Домов</label><input type="text" id="cfgHouses" class="form-input" oninput="saveAll()"></div>
-                </div>
-            </div>
-
-            <div id="tab-team" class="tab-content">
-                <div class="admin-card">
-                    <button class="btn btn-red" onclick="addDev()">+ Добавить разработчика</button>
-                    <div id="teamList" style="margin-top:15px;"></div>
-                </div>
+        <div id="stats" class="tab-content">
+            <div class="admin-card">
+                <h3>Цифры на главной</h3>
+                <div class="form-group"><label>Аккаунтов</label><input type="text" id="cfgAccs" class="form-input" oninput="saveAll()"></div>
+                <div class="form-group"><label>Машин</label><input type="text" id="cfgCars" class="form-input" oninput="saveAll()"></div>
+                <div class="form-group"><label>Домов</label><input type="text" id="cfgHouses" class="form-input" oninput="saveAll()"></div>
+                <div class="form-group"><label>Версия APK</label><input type="text" id="cfgVer" class="form-input" oninput="saveAll()"></div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="save-status" id="saveHint">СОХРАНЕНО</div>
+<div class="save-status" id="saveHint">СОХРАНЕНО</div>
 
-    <script src="config.js"></script>
-    <script src="admin.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
