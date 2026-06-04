@@ -11,7 +11,7 @@ var ADMIN_USER = "admin";
 // Пароль (в SHA-256). По умолчанию: RealMobile2026!
 // Чтобы изменить — открой https://emn178.github.io/online-tools/sha256.html
 // введи свой пароль и вставь хэш сюда
-var ADMIN_PASS_HASH = "8c6b7f1e3a4d5f9c2e6b8a1d4f7e3c5b9a2d6e8f1c4b7a3d6e9f2c5b8a1d4e7f";
+var ADMIN_PASS_HASH = "04dd1d9b22eadcaba7e8b89b29c26f618a78bbfdc5295d63e610dc26d5f0df0f";
 
 // PIN (6 цифр). По умолчанию: 247365
 var ADMIN_PIN = "247365";
